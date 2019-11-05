@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.nio.file.WatchEvent.Kind;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,10 +45,11 @@ public class FileSystemMonitor {
             continue;
           }
           for(WatchEvent<?> event: key.pollEvents()){
-            WatchEvent.Kind kind = event.kind();
+            Kind<?> kind = event.kind();
             if (kind == StandardWatchEventKinds.OVERFLOW){
               continue;
             }
+            @SuppressWarnings("unchecked")
             WatchEvent<Path> ev = (WatchEvent<Path>)event;
             Path name = ev.context();
             logger.debug(name.toFile().getAbsolutePath());
