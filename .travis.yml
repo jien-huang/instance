@@ -1,0 +1,20 @@
+language: java
+jdk:
+  - openjdk11
+dist: xenial
+services:
+  - docker
+
+env:
+  - TERM=dumb
+
+script:
+  - gradle build
+
+deploy:
+  - provider: script
+    script: gradle pushDockerImage
+    skip_cleanup: true
+    on:
+      branch: master
+
