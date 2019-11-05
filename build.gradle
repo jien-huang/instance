@@ -16,6 +16,13 @@ ext {
 	set('springBootAdminVersion', "2.1.5")
 }
 
+version='0.1.0'
+
+def user = "$System.env.USERNAME"
+def pass = "$System.env.PASSWORD"
+def imageTarget = "huangjien/instance"
+def imageTag = project.findProperty('imageTag') ?: 'latest'
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -31,4 +38,36 @@ dependencyManagement {
 	imports {
 		mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
 	}
+}
+
+task tagRelease(type: Exec) {
+    commandLine '/bin/sh', '-c', "git tag ${version}"
+}
+
+task dockerLogin(type: Exec){
+  commandLine '/bin/sh', '-c', 'docker login -u ' + user + ' -p ' + pass
+}
+
+// Enable gradle to use property like -Dspring.profiles.active=dev
+bootRun {
+	systemProperties = System.properties
+}
+
+task copyJar(type: Exec){
+	commandLine '/bin/sh', '-c', "cp build/libs/${project.name}-${project.version}.jar build/libs/${project.name}.jar"
+}
+
+task createDockerImage(type: Exec){
+	dependsOn 'copyJar'
+	commandLine '/bin/sh', '-c', "docker build -t ${imageTarget}:${project.version} ."
+}
+
+task tagDockerImage(type:Exec){
+	dependsOn 'createDockerImage'
+	commandLine '/bin/sh', '-c', "docker tag ${imageTarget}:${project.version} ${imageTarget}:${imageTag}"
+}
+
+task pushDockerImage(type: Exec){
+	dependsOn 'tagDockerImage'
+	commandLine '/bin/sh', '-c', "docker login -u ${user} -p ${pass} && docker push ${imageTarget}"
 }
