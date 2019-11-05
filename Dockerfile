@@ -20,7 +20,7 @@ ENV JAVA_HOME=/opt/java
 ENV PATH="$PATH:$JAVA_HOME/bin"
 
 COPY --from=packager "$JAVA_HOME" "$JAVA_HOME"
-COPY build/libs/instance-1.0.jar app.jar
+COPY build/libs/instance.jar app.jar
 
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.10/main/ nodejs=10.16.3-r0
 RUN apk add --update npm
