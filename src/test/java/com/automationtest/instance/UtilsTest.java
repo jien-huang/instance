@@ -10,6 +10,11 @@ import org.junit.Test;
 public class UtilsTest {
 
     @Test
+    public void constructorTest() {
+        Assert.assertNotNull(new Utils());
+    }
+
+    @Test
     public void toJson() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("hello", "my lord");
