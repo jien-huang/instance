@@ -14,16 +14,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 public class InstanceApplicationTests {
 
-	@Autowired
-	private RestController restController;
+    @Autowired
+    private RestController restController;
 
-	@Autowired
-	private WebController webController;
+    @Autowired
+    private WebController webController;
 
-	@Test
-	public void contextLoads() {
-		assertThat(restController).isNotNull();
-		assertThat(webController).isNotNull();
-	}
+    @Test
+    public void contextLoads() {
+        assertThat(restController).isNotNull();
+        assertThat(webController).isNotNull();
+    }
+
+    @Test
+    public void applicationContextTest() {
+        InstanceApplication.main(new String[] {});
+    }
 
 }
