@@ -30,7 +30,8 @@ RUN apk add --no-cache ttf-freefont udev chromium
 # support chromium only now
 RUN apk add --no-cache firefox-esr
 RUN npm install -g testcafe
-RUN npm install testcafe-reporter-json
+RUN npm install -g testcafe-reporter-json
+RUN npm install -g @ffmpeg-installer/ffmpeg
 
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.jar"]
