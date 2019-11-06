@@ -63,7 +63,9 @@ public class Utils {
   }
 
   public static String yamlToJson(String yaml) throws IOException {
-    assert !Strings.isNullOrEmpty(yaml);
+    if (Strings.isNullOrEmpty(yaml)){
+        return null;
+    }
     ObjectMapper yamlReader = new ObjectMapper(new YAMLFactory());
     Object obj = yamlReader.readValue(yaml, Object.class);
     ObjectMapper jsonWriter = new ObjectMapper();
@@ -71,6 +73,9 @@ public class Utils {
   }
 
   public static String jsonToYaml(String json) throws IOException {
+    if (Strings.isNullOrEmpty(json)){
+        return null;
+    }
     JsonNode jsonNode = mapper.reader().readTree(json);
     return new YAMLMapper().writeValueAsString(jsonNode);
   }
