@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.1.9.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
+    id 'jacoco'
 }
 
 group = 'com.automationtest'
@@ -70,4 +71,19 @@ task tagDockerImage(type:Exec){
 task pushDockerImage(type: Exec){
 	dependsOn 'tagDockerImage'
 	commandLine '/bin/sh', '-c', "docker login -u ${user} -p ${pass} && docker push ${imageTarget}"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled true
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "short"
+    }
 }
