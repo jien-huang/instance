@@ -12,13 +12,14 @@ import java.nio.file.WatchEvent.Kind;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class FileSystemMonitor {
-  private Logger logger = LoggerFactory.getLogger("FileSystemMonitor");
-  final WatchService watchService = FileSystems.getDefault().newWatchService();
-  final HashMap<WatchKey, Path> keys = new HashMap<>();
-  Path path;
-  ConcurrentHashMap<String, String> fileList = new ConcurrentHashMap<>();
+class FileSystemMonitor {
+  private final Logger logger = LoggerFactory.getLogger("FileSystemMonitor");
+  private final WatchService watchService = FileSystems.getDefault().newWatchService();
+  private final HashMap<WatchKey, Path> keys = new HashMap<>();
+  private final Path path;
+  private final ConcurrentHashMap<String, String> fileList = new ConcurrentHashMap<>();
 
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   public FileSystemMonitor(String watchPath) throws IOException {
     File folder = new File(watchPath);
     if(folder.exists()){

@@ -15,14 +15,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin
 public class RestController {
 
-  private Logger logger = LoggerFactory.getLogger("RestController");
+  private final Logger logger = LoggerFactory.getLogger("RestController");
   @Autowired
   ResultsFolderMonitor resultsFolderMonitor;
   @Autowired
@@ -52,7 +51,7 @@ public class RestController {
   @PostMapping("/uploadMultipleFiles")
   public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) throws IOException {
     List<UploadFileResponse> list = new ArrayList<>();
-    for (MultipartFile multipartFile : Arrays.asList(files)) {
+    for (MultipartFile multipartFile : files) {
       UploadFileResponse uploadFileResponse = uploadFile(multipartFile);
       list.add(uploadFileResponse);
     }
