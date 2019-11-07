@@ -11,8 +11,9 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
-public class FolderMonitor {
+class FolderMonitor {
   FileSystemMonitor fileSystemMonitor;
 
   public Resource loadFileAsResource(String fileName) throws IOException {
@@ -31,7 +32,7 @@ public class FolderMonitor {
 
   public String storeFile(MultipartFile file) throws IOException {
     // Normalize file name
-    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+    String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
 
     // Check if the file's name contains invalid characters

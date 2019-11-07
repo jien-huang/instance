@@ -11,19 +11,19 @@ public class UtilsTest {
 
     @Test
     public void constructorTest() {
-        Assert.assertNotNull(new Utils());
+        new Utils();
     }
 
     @Test
     public void toJson() {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<>();
         map.put("hello", "my lord");
         Assert.assertTrue(Utils.isJson(Utils.toJson(map)));
     }
 
     @Test
     public void now() {
-        Assert.assertTrue(DateUtil.parse(Utils.now()) != null);
+        Assert.assertNotNull(DateUtil.parse(Utils.now()));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class UtilsTest {
 
     @Test
     public void randomDigit() {
-        Assert.assertTrue(Integer.valueOf((Utils.randomDigit())) > 0);
+        Assert.assertTrue(Integer.parseInt((Utils.randomDigit())) > 0);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class UtilsTest {
             Assert.assertNull(Utils.yamlToJson(""));
             Assert.assertTrue(Utils.isJson(Utils.yamlToJson("root - child1")));
         } catch (IOException e) {
-            Assert.assertTrue("Got Exception", false);
+            Assert.fail("Got Exception");
         }
     }
 
@@ -69,7 +69,7 @@ public class UtilsTest {
             Assert.assertNull(Utils.jsonToYaml(""));
 			Assert.assertTrue(Utils.isYaml(Utils.jsonToYaml("{\"status\":\"OK\"}")));
 		} catch (IOException e) {
-			Assert.assertTrue("Got Exception", false);
+            Assert.fail("Got Exception");
 		}
     }
 }

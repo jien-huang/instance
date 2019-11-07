@@ -15,17 +15,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin
-public class RestController {
+class RestController {
 
-  private Logger logger = LoggerFactory.getLogger("RestController");
+  private final Logger logger = LoggerFactory.getLogger("RestController");
   @Autowired
+  private
   ResultsFolderMonitor resultsFolderMonitor;
   @Autowired
+  private
   ScriptsFolderMonitor scriptsFolderMonitor;
 
   @RequestMapping(value = "/ping", method = RequestMethod.GET)
@@ -37,7 +38,7 @@ public class RestController {
   }
 
   @PostMapping("/uploadFile")
-  public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+  private UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
     String fileName = scriptsFolderMonitor.storeFile(file);
 
     String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -52,7 +53,7 @@ public class RestController {
   @PostMapping("/uploadMultipleFiles")
   public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) throws IOException {
     List<UploadFileResponse> list = new ArrayList<>();
-    for (MultipartFile multipartFile : Arrays.asList(files)) {
+    for (MultipartFile multipartFile : files) {
       UploadFileResponse uploadFileResponse = uploadFile(multipartFile);
       list.add(uploadFileResponse);
     }

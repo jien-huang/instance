@@ -12,13 +12,14 @@ import java.nio.file.WatchEvent.Kind;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class FileSystemMonitor {
-  private Logger logger = LoggerFactory.getLogger("FileSystemMonitor");
-  final WatchService watchService = FileSystems.getDefault().newWatchService();
-  final HashMap<WatchKey, Path> keys = new HashMap<>();
-  Path path;
-  ConcurrentHashMap<String, String> fileList = new ConcurrentHashMap<>();
+class FileSystemMonitor {
+  private final Logger logger = LoggerFactory.getLogger("FileSystemMonitor");
+  private final WatchService watchService = FileSystems.getDefault().newWatchService();
+  private final HashMap<WatchKey, Path> keys = new HashMap<>();
+  private final Path path;
+  private final ConcurrentHashMap<String, String> fileList = new ConcurrentHashMap<>();
 
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   public FileSystemMonitor(String watchPath) throws IOException {
     File folder = new File(watchPath);
     if(folder.exists()){
@@ -33,44 +34,40 @@ public class FileSystemMonitor {
     loadFileList();
     WatchKey key = path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);
     keys.put(key, path);
-    new DefaultThreadFactory(watchPath, true).newThread(new Runnable() {
-      @Override
-      public void run() {
-        while (true) {
-          WatchKey key;
-          try {key = watchService.take();}
-          catch (InterruptedException e) {return;}
-          Path dir = keys.get(key);
-          if(dir == null) {
+    new DefaultThreadFactory(watchPath, true).newThread(() -> {
+      while (true) {
+        WatchKey key1;
+        try {
+          key1 = watchService.take();}
+        catch (InterruptedException e) {return;}
+        Path dir = keys.get(key1);
+        if(dir == null) {
+          continue;
+        }
+        for(WatchEvent<?> event: key1.pollEvents()){
+          Kind<?> kind = event.kind();
+          if (kind == StandardWatchEventKinds.OVERFLOW){
             continue;
           }
-          for(WatchEvent<?> event: key.pollEvents()){
-            Kind<?> kind = event.kind();
-            if (kind == StandardWatchEventKinds.OVERFLOW){
-              continue;
-            }
-            @SuppressWarnings("unchecked")
-            WatchEvent<Path> ev = (WatchEvent<Path>)event;
-            Path name = ev.context();
-            logger.debug(name.toFile().getAbsolutePath());
-            if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
-              fileList.put(name.toFile().getName(), name.toFile().getAbsolutePath());
-            }
-            if (kind == StandardWatchEventKinds.ENTRY_DELETE) {
-              fileList.remove(name.toFile().getName());
-            }
+          @SuppressWarnings("unchecked")
+          WatchEvent<Path> ev = (WatchEvent<Path>)event;
+          Path name = ev.context();
+          logger.debug(name.toFile().getAbsolutePath());
+          if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
+            fileList.put(name.toFile().getName(), name.toFile().getAbsolutePath());
+          }
+          if (kind == StandardWatchEventKinds.ENTRY_DELETE) {
+            fileList.remove(name.toFile().getName());
           }
         }
-
-
       }
+
+
     }).start();
   }
 
   private void loadFileList() throws IOException {
-    Files.walk(path).sorted().forEach(p ->{
-      fileList.put(p.toFile().getName(), p.toFile().getAbsolutePath());
-    });
+    Files.walk(path).sorted().forEach(p -> fileList.put(p.toFile().getName(), p.toFile().getAbsolutePath()));
   }
 
   public boolean exist(String fileName) {

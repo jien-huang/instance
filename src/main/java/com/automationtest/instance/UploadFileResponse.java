@@ -1,6 +1,6 @@
 package com.automationtest.instance;
 
-public class UploadFileResponse {
+class UploadFileResponse {
   private String fileName;
   private String fileDownloadUri;
   private String fileType;
@@ -17,7 +17,7 @@ public String getFileName() {
 	return fileName;
 }
 
-public void setFileName(String fileName) {
+private void setFileName(String fileName) {
 	this.fileName = fileName;
 }
 
@@ -25,7 +25,7 @@ public String getFileDownloadUri() {
 	return fileDownloadUri;
 }
 
-public void setFileDownloadUri(String fileDownloadUri) {
+private void setFileDownloadUri(String fileDownloadUri) {
 	this.fileDownloadUri = fileDownloadUri;
 }
 
@@ -33,7 +33,7 @@ public String getFileType() {
 	return fileType;
 }
 
-public void setFileType(String fileType) {
+private void setFileType(String fileType) {
 	this.fileType = fileType;
 }
 
@@ -41,7 +41,7 @@ public long getSize() {
 	return size;
 }
 
-public void setSize(long size) {
+private void setSize(long size) {
 	this.size = size;
 }
 

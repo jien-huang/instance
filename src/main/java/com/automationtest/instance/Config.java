@@ -59,7 +59,7 @@ public class Config {
       return defaultValue;
     return value.toString().equalsIgnoreCase("True");
   }
-  public Object get(String key){
+  private Object get(String key){
     return properties.getProperty(key);
   }
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 @Service
-public class ScriptsFolderMonitor extends FolderMonitor {
+class ScriptsFolderMonitor extends FolderMonitor {
 
   @Autowired
   public ScriptsFolderMonitor() throws IOException {
@@ -23,7 +23,7 @@ public class ScriptsFolderMonitor extends FolderMonitor {
       out.write(buf);
       out.flush();
       out.close();
-      return buf.toString();
+      return new String(buf);
     } catch (IOException e) {
       return e.getMessage();
     }

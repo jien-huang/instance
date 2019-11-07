@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public class ResultsFolderMonitor extends FolderMonitor {
+class ResultsFolderMonitor extends FolderMonitor {
 
 
   @Autowired

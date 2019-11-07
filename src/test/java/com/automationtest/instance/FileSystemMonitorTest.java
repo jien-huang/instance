@@ -9,13 +9,14 @@ import java.io.File;
 
 public class FileSystemMonitorTest {
 
-  FileSystemMonitor fileSystemMonitor;
-  File root;
+  private FileSystemMonitor fileSystemMonitor;
+  private File root;
 
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   @Before
   public void setUp() throws Exception {
     root = new File("test");
-    if(root.exists())
+    if (root.exists())
       root.delete();
     root.mkdir();
     File file1 = new File("test/test1.txt");
@@ -23,8 +24,9 @@ public class FileSystemMonitorTest {
     fileSystemMonitor = new FileSystemMonitor("test");
   }
 
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     root.delete();
   }
 
