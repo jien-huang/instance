@@ -24,8 +24,9 @@ public class FileSystemMonitorTest {
     fileSystemMonitor = new FileSystemMonitor("test");
   }
 
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     root.delete();
   }
 

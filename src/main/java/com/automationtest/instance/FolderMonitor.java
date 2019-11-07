@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
-public class FolderMonitor {
+class FolderMonitor {
   FileSystemMonitor fileSystemMonitor;
 
   public Resource loadFileAsResource(String fileName) throws IOException {

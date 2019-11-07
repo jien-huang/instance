@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
-public class Utils {
+class Utils {
   private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
   private static final ObjectMapper mapper = new ObjectMapper();
 

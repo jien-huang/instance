@@ -19,12 +19,14 @@ import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin
-public class RestController {
+class RestController {
 
   private final Logger logger = LoggerFactory.getLogger("RestController");
   @Autowired
+  private
   ResultsFolderMonitor resultsFolderMonitor;
   @Autowired
+  private
   ScriptsFolderMonitor scriptsFolderMonitor;
 
   @RequestMapping(value = "/ping", method = RequestMethod.GET)
@@ -36,7 +38,7 @@ public class RestController {
   }
 
   @PostMapping("/uploadFile")
-  public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+  private UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
     String fileName = scriptsFolderMonitor.storeFile(file);
 
     String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
