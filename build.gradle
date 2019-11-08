@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.9.RELEASE'
+	id 'org.springframework.boot' version '2.2.1.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
     id 'jacoco'
@@ -29,7 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'de.codecentric:spring-boot-admin-starter-server'
 	compile group: 'com.google.code.gson', name: 'gson'
-	compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
+	compile group: 'com.google.guava', name: 'guava'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
 	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml'
