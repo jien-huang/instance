@@ -10,7 +10,7 @@ This is an automation test intance docker project.
 If above description is not clear, or just want to get some general ideas. Please follow below steps:
 
 ### prerequiste
-Before everything, please make sure you have install [docker] (https://docs.docker.com/v17.09/engine/installation/) on your computer.
+Before everything, please make sure you have install [docker](https://docs.docker.com/v17.09/engine/installation/) on your computer.
 
 ### 1. Download and start a docker container.
 ```sh
@@ -27,7 +27,7 @@ Use our GitHub issues page to [report bugs or suggest improvements](https://gith
 
 ## Authors
 
-Please contact [Jien Huang] (mailto:huang_jien@msn.com) if you need some help.
+Please contact [Jien Huang](mailto:huang_jien@msn.com) if you need some help.
 
 ## Contributing
 
