@@ -9,15 +9,15 @@ This is an automation test intance docker project.
 
 If above description is not clear, or just want to get some general ideas. Please follow below steps:
 
-### prerequiste
+##### Prerequiste
 Before everything, please make sure you have install [docker](https://docs.docker.com/v17.09/engine/installation/) on your computer.
 
-### 1. Download and start a docker container.
+##### 1. Download and start a docker container.
 ```sh
 docker run ...
 ```
-### 2. Browse the embedded website, there are some example scripts in there. Kick off and view the results.
-### 3. Write your own script, upload and try it, check the results.
+##### 2. Browse the embedded website, there are some example scripts in there. Kick off and view the results.
+##### 3. Write your own script, upload and try it, check the results.
 ```js
 
 ```
@@ -37,4 +37,4 @@ Please make sure to update tests as appropriate.
 
 ## License
 
-[MIT] (https://choosealicense.com/licenses/mit/)
+[MIT](https://choosealicense.com/licenses/mit/)
