@@ -23,7 +23,6 @@ build/
 bin/
 .gradle/
 .project/
-test/
 .classpath
 .project
 .settings/
