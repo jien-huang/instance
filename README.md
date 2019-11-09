@@ -1,11 +1,15 @@
 # Instance
 
-This is an automation test intance docker project.
+This is an automation test instance docker project.
 
-## Description
+## Description 
 
-
+This Project will provide a docker image, which contains a testcafe environment in it.
+Then you can upload scripts, run them and download the results.
+It also provide a simple website in it, a basic web UI will manage the scripts and results.
+And REST API provided.
 ## Getting Start
+
 
 If above description is not clear, or just want to get some general ideas. Please follow below steps:
 
@@ -14,7 +18,7 @@ Before everything, please make sure you have install [docker](https://docs.docke
 
 ##### 1. Download and start a docker container.
 ```sh
-docker run ...
+docker pull huangjien/instance
 ```
 ##### 2. Browse the embedded website, there are some example scripts in there. Kick off and view the results.
 ##### 3. Write your own script, upload and try it, check the results.
