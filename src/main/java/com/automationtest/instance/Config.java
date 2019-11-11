@@ -38,6 +38,9 @@ public class Config {
         properties.put(key, value);
       }
     }
+    if(!properties.containsKey("client.id")) {
+      properties.put("client.id", Utils.uuid());
+    }
   }
 
   public static Config getInstance(){

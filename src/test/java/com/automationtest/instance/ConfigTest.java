@@ -3,13 +3,11 @@ package com.automationtest.instance;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class ConfigTest {
 
     @Test
     public void getInstance() {
-        Assert.assertNotNull(Config.getInstance());
+        Assert.assertNotNull(Config.getInstance().get("client.id"));
     }
 
     @Test
