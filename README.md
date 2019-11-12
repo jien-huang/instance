@@ -18,7 +18,7 @@ Before everything, please make sure you have install [docker](https://docs.docke
 
 ##### 1. Download and start a docker container.
 ```sh
-docker pull huangjien/instance
+docker run -p 8090:8090 huangjien/instance
 ```
 ##### 2. Browse the embedded website, there are some example scripts in there. Kick off and view the results.
 ##### 3. Write your own script, upload and try it, check the results.
