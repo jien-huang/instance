@@ -29,6 +29,7 @@ RUN apk add --update npm
 RUN apk update
 RUN apk upgrade
 RUN apk add --no-cache ttf-freefont udev chromium
+RUN apk add  --no-cache ffmpeg
 # support chromium only now
 RUN apk add --no-cache firefox-esr
 RUN npm install -g testcafe
