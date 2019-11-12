@@ -1,10 +1,15 @@
 package com.automationtest.instance;
 
 import com.google.common.base.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -12,6 +17,7 @@ public class Config {
 
   private final Properties properties = new Properties();
   private static final Config instance = new Config();
+  final Logger logger = LoggerFactory.getLogger("Configuration");
 
   /***
    * load config files, by alphabet order, so my.properties will overwrite config.properties;
@@ -41,6 +47,20 @@ public class Config {
     if(!properties.containsKey("client.id")) {
       properties.put("client.id", Utils.uuid());
     }
+    // if in docker, /proc/1/cgroup contain 'docker'; we need to mark in.docker=true
+    File cgroup = new File("/proc/1/cgroup");
+    if(cgroup.exists()){
+      properties.put("is.unix", "True");
+      try {
+        if(Files.readAllBytes(Paths.get("/proc/1/cgroup")).toString().contains("docker")){
+          properties.put("in.docker", "True");
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    logger.info("in.docker=" + properties.getProperty("in.docker", "False"));
+    logger.info("is.unix=" + properties.getProperty("is.unix", "False"));
   }
 
   public static Config getInstance(){

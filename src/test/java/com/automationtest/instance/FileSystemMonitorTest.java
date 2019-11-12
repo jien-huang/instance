@@ -15,23 +15,32 @@ public class FileSystemMonitorTest {
   @SuppressWarnings("ResultOfMethodCallIgnored")
   @Before
   public void setUp() throws Exception {
-    root = new File("test");
-    if (root.exists())
-      root.delete();
-    root.mkdir();
-    File file1 = new File("test/test1.txt");
+    root = new File("scripts");
+    if (!root.exists()) {
+      root.mkdir();
+    }
+    File file1 = new File("scripts/test1.txt");
     file1.createNewFile();
-    fileSystemMonitor = new FileSystemMonitor("test");
+    fileSystemMonitor = new FileSystemMonitor("scripts");
   }
 
   @SuppressWarnings("ResultOfMethodCallIgnored")
   @After
   public void tearDown() {
-    root.delete();
+    File file1 = new File("scripts/test1.txt");
+    if(file1.exists()){
+      file1.delete();
+    }
   }
 
   @Test
   public void exist() {
     Assert.assertTrue(fileSystemMonitor.exist("test1.txt"));
   }
+
+  @Test
+  public void getPath() {
+    Assert.assertTrue(fileSystemMonitor.getPath().toString().equals("scripts"));
+  }
+
 }
