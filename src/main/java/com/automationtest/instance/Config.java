@@ -21,8 +21,6 @@ public class Config {
   private Config(){
 
     File[] files = new File(".").listFiles();
-    assert files!=null;
-    assert files.length > 0;
     Arrays.sort(files);
     for(File file : files)
       if (file.getName().endsWith(".properties")) {
@@ -39,6 +37,9 @@ public class Config {
       if (!Strings.isNullOrEmpty(value)){
         properties.put(key, value);
       }
+    }
+    if(!properties.containsKey("client.id")) {
+      properties.put("client.id", Utils.uuid());
     }
   }
 
@@ -59,7 +60,7 @@ public class Config {
       return defaultValue;
     return value.toString().equalsIgnoreCase("True");
   }
-  private Object get(String key){
+  Object get(String key){
     return properties.getProperty(key);
   }
 

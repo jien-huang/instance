@@ -35,5 +35,5 @@ RUN npm install -g testcafe
 RUN npm install -g testcafe-reporter-json
 RUN npm install -g @ffmpeg-installer/ffmpeg
 
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+EXPOSE 8090
+ENTRYPOINT ["java","-jar","app.jar"]
