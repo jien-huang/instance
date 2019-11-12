@@ -17,7 +17,7 @@ class ScriptsFolderMonitor extends FolderMonitor {
   public String runScript(String scriptFileName) {
     try {
         // --video artifacts/videos
-      Process process = Runtime.getRuntime().exec("testcafe \"chromium:headless\" " + scriptFileName);
+      Process process = Runtime.getRuntime().exec("testcafe \"chromium:headless\" ./scripts/" + scriptFileName);
       OutputStream out = process.getOutputStream();
       byte[] buf = new byte[4096];
       out.write(buf);
