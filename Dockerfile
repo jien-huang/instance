@@ -28,6 +28,7 @@ COPY application.properties .
 COPY config.properties .
 COPY log4j.properties .
 COPY my.properties .
+COPY public .
 
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.10/main/ nodejs=10.16.3-r0
 RUN apk add --update npm
