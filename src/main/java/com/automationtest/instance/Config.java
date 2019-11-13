@@ -15,87 +15,78 @@ import java.util.Properties;
 
 public class Config {
 
-  private final Properties properties = new Properties();
-  private static final Config instance = new Config();
-  final Logger logger = LoggerFactory.getLogger("Configuration");
+    private final Properties properties = new Properties();
+    private static final Config instance = new Config();
+    final Logger logger = LoggerFactory.getLogger("Configuration");
 
-  /***
-   * load config files, by alphabet order, so my.properties will overwrite config.properties;
-   * then load environment variables, it will overwrite all properties;
-   * but the env var should contain value, empty value will be ignored.
-   */
-  private Config(){
+    /***
+     * load config files, by alphabet order, so my.properties will overwrite
+     * config.properties; then load environment variables, it will overwrite all
+     * properties; but the env var should contain value, empty value will be
+     * ignored.
+     */
+    private Config() {
 
-    File[] files = new File(".").listFiles();
-    Arrays.sort(files);
-    for(File file : files)
-      if (file.getName().endsWith(".properties")) {
-        Properties config = new Properties();
-        try {
-          config.load(new FileInputStream(file));
-          properties.putAll(config);
-        } catch (IOException e) {
-          e.printStackTrace();
+        File[] files = new File(".").listFiles();
+        Arrays.sort(files);
+        for (File file : files){
+            if (file.getName().endsWith(".properties")) {
+                Properties config = new Properties();
+                try {
+                    config.load(new FileInputStream(file));
+                    properties.putAll(config);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-      }
-    for (String key : System.getenv().keySet()) {
-      String value = System.getenv(key);
-      if (!Strings.isNullOrEmpty(value)){
+        // system env will overrite things from properties
+        for (String key : System.getenv().keySet()) {
+            String value = System.getenv(key);
+            if (!Strings.isNullOrEmpty(value)) {
+                properties.put(key, value);
+            }
+        }
+        if (!properties.containsKey("client.id")) {
+            properties.put("client.id", Utils.uuid());
+        }
+        
+    }
+
+    public static Config getInstance() {
+        return instance;
+    }
+
+    public boolean is(String key) {
+        Object value = get(key);
+        if (value == null)
+            return false;
+        return value.toString().equalsIgnoreCase("True");
+    }
+
+    public boolean is(String key, boolean defaultValue) {
+        Object value = get(key);
+        if (value == null)
+            return defaultValue;
+        return value.toString().equalsIgnoreCase("True");
+    }
+
+    Object get(String key) {
+        return properties.getProperty(key);
+    }
+
+    public Object get(String key, Object defaultValue) {
+        Object value = get(key);
+        if (value == null)
+            value = defaultValue;
+        return value;
+    }
+
+    public void set(String key, String value) {
         properties.put(key, value);
-      }
     }
-    if(!properties.containsKey("client.id")) {
-      properties.put("client.id", Utils.uuid());
+
+    public Properties getAll() {
+        return properties;
     }
-    // if in docker, /proc/1/cgroup contain 'docker'; we need to mark in.docker=true
-    File cgroup = new File("/proc/1/cgroup");
-    if(cgroup.exists()){
-      properties.put("is.unix", "True");
-      try {
-        if(Files.readAllBytes(Paths.get("/proc/1/cgroup")).toString().contains("docker")){
-          properties.put("in.docker", "True");
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    logger.info("in.docker=" + properties.getProperty("in.docker", "False"));
-    logger.info("is.unix=" + properties.getProperty("is.unix", "False"));
-  }
-
-  public static Config getInstance(){
-    return instance;
-  }
-
-  public boolean is(String key) {
-    Object value = get(key);
-    if (value == null)
-      return false;
-    return value.toString().equalsIgnoreCase("True");
-  }
-
-  public boolean is (String key, boolean defaultValue) {
-    Object value = get(key);
-    if (value == null)
-      return defaultValue;
-    return value.toString().equalsIgnoreCase("True");
-  }
-  Object get(String key){
-    return properties.getProperty(key);
-  }
-
-  public Object get(String key, Object defaultValue){
-    Object value = get(key);
-    if(value==null)
-      value = defaultValue;
-    return value;
-  }
-
-  public void set(String key, String value) {
-    properties.put(key, value);
-  }
-
-  public Properties getAll() {
-    return properties;
-  }
 }
