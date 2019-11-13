@@ -18,6 +18,7 @@ LABEL author=huangjien
 
 ENV JAVA_HOME=/opt/java
 ENV PATH="$PATH:$JAVA_HOME/bin"
+ENV local.browser=chromium
 
 COPY --from=packager "$JAVA_HOME" "$JAVA_HOME"
 COPY build/libs/instance.jar app.jar
