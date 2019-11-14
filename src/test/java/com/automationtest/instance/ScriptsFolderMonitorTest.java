@@ -29,6 +29,6 @@ public class ScriptsFolderMonitorTest {
 
     @Test
     public void runScript() {
-        // Assert.assertTrue( scriptsFolderMonitor.runScript("testScript_1.js").contains("1st test"));
+        Assert.assertTrue( scriptsFolderMonitor.runScript("testScript_1.js").contains("1st test"));
     }
 }
