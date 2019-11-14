@@ -81,6 +81,7 @@ jacocoTestReport {
 }
 
 test {
+	exclude "com/automationtest/instance/ScriptFolderMonitorTest.class"
     testLogging {
         events "failed"
         exceptionFormat "short"
