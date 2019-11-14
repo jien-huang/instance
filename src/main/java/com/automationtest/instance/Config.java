@@ -47,6 +47,12 @@ public class Config {
                 properties.put(key, value);
             }
         }
+        for (Object key : System.getProperties().keySet()) {
+            String value = System.getProperty(key.toString());
+            if (!Strings.isNullOrEmpty(value)) {
+                properties.put(key, value);
+            }
+        }
         if (!properties.containsKey("client.id")) {
             properties.put("client.id", Utils.uuid());
         }
