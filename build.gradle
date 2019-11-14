@@ -81,7 +81,10 @@ jacocoTestReport {
 }
 
 test {
-	exclude "**/ScriptsFolderMonitorTest.class"
+    if (System.env['TRAVIS'] == 'true' || System.env['USER'] == 'gitpod') {
+        exclude "**/ScriptsFolderMonitorTest.class"
+    }
+	
     testLogging {
         events "failed"
         exceptionFormat "short"
