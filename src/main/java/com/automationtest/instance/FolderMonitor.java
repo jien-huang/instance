@@ -1,7 +1,9 @@
 package com.automationtest.instance;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,8 +15,16 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
+@Service
 class FolderMonitor {
   FileSystemMonitor fileSystemMonitor;
+
+  private static final String RESULTS = Config.getInstance().get("folder.results", "./results/").toString();
+
+  @Autowired
+  public FolderMonitor() throws IOException {
+    fileSystemMonitor = new FileSystemMonitor(RESULTS);
+  }
 
   public Resource loadFileAsResource(String fileName) throws IOException {
     try {

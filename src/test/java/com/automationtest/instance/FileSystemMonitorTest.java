@@ -36,6 +36,7 @@ public class FileSystemMonitorTest {
   @Test
   public void exist() {
     Assert.assertTrue(fileSystemMonitor.exist("test1.txt"));
+    Assert.assertFalse(fileSystemMonitor.exist("somethingnotexisted"));
   }
 
   @Test

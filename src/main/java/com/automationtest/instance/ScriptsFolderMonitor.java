@@ -17,7 +17,7 @@ class ScriptsFolderMonitor extends FolderMonitor {
     private static final String SCRIPTS = Config.getInstance().get("folder.scripts", "./scripts/").toString();
     private static final String RESULTS = Config.getInstance().get("folder.results", "./results/").toString();
     private static final String VIDEO_OPTIONS = Config.getInstance().get("video.options",
-            " --video-options pathPattern='${DATE}-${TIME}-Test${TEST_INDEX}-No${FILE_INDEX}.mp4'").toString();
+            " --video-options pathPattern=${DATE}-${TIME}-Test${TEST_INDEX}-No${FILE_INDEX}.mp4").toString();
 
     @Autowired
     public ScriptsFolderMonitor() throws IOException {
