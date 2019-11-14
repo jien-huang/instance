@@ -81,6 +81,7 @@ jacocoTestReport {
 }
 
 test {
+	exclude "**/ScriptsFolderMonitorTest.class"
     testLogging {
         events "failed"
         exceptionFormat "short"
