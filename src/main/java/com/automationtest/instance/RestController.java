@@ -42,7 +42,7 @@ class RestController {
     String fileName = scriptsFolderMonitor.storeFile(file);
 
     String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-      .path("/downloadFile/")
+      .path("/scripts/")
       .path(fileName)
       .toUriString();
 

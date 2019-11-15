@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 public class FolderMonitorTest {
 
     FolderMonitor folderMonitor;
+
     @Before
     public void setup() {
         try {
@@ -26,11 +27,10 @@ public class FolderMonitorTest {
 
     @Test
     public void loadFileAsResource() {
-        try {
-            Assert.assertTrue(folderMonitor.loadFileAsResource("testForDownload.txt").getClass().getName().contains("Resource"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        Assert.assertTrue(folderMonitor.loadFileAsResource("testForDownload.txt").getClass().getName().contains("Resource"));
+        Assert.assertNull(folderMonitor.loadFileAsResource("somethingnotexisted.file"));
+        Assert.assertNull(folderMonitor.loadFileAsResource("malformat-..%%URL_*~somethingnotexisted.file"));
     }
 
     @Test

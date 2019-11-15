@@ -17,44 +17,42 @@ import java.util.Objects;
 
 @Service
 class FolderMonitor {
-  FileSystemMonitor fileSystemMonitor;
+    FileSystemMonitor fileSystemMonitor;
 
-  private static final String RESULTS = Config.getInstance().get("folder.results", "./results/").toString();
+    private static final String RESULTS = Config.getInstance().get("folder.results", "./results/").toString();
 
-  @Autowired
-  public FolderMonitor() throws IOException {
-    fileSystemMonitor = new FileSystemMonitor(RESULTS);
-  }
-
-  public Resource loadFileAsResource(String fileName) throws IOException {
-    try {
-      Path filePath = this.fileSystemMonitor.getPath().resolve(fileName).normalize();
-      Resource resource = new UrlResource(filePath.toUri());
-      if (resource.exists()) {
-        return resource;
-      } else {
-        throw new FileNotFoundException("File not found " + fileName);
-      }
-    } catch (MalformedURLException | FileNotFoundException ex) {
-      throw new IOException("File not found " + fileName, ex);
-    }
-  }
-
-  public String storeFile(MultipartFile file) throws IOException {
-    // Normalize file name
-    String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-
-
-    // Check if the file's name contains invalid characters
-    if (fileName.contains("..")) {
-      throw new IOException("Sorry! Filename contains invalid path sequence " + fileName);
+    @Autowired
+    public FolderMonitor() throws IOException {
+        fileSystemMonitor = new FileSystemMonitor(RESULTS);
     }
 
-    // Copy file to the target location (Replacing existing file with the same name)
-    Path targetLocation = this.fileSystemMonitor.getPath().resolve(fileName);
-    Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+    public Resource loadFileAsResource(String fileName) {
+        try {
+            Path filePath = this.fileSystemMonitor.getPath().resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if (resource.exists()) {
+                return resource;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-    return fileName;
+    public String storeFile(MultipartFile file) throws IOException {
+        // Normalize file name
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+//    // Check if the file's name contains invalid characters
+//    if (fileName.contains("..")) {
+//      throw new IOException("Sorry! Filename contains invalid path sequence " + fileName);
+//    }
 
-  }
+        // Copy file to the target location (Replacing existing file with the same name)
+        Path targetLocation = this.fileSystemMonitor.getPath().resolve(fileName);
+        Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+        return fileName;
+
+    }
 }
