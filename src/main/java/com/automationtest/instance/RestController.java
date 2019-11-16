@@ -51,7 +51,7 @@ class RestController {
   }
 
   @PostMapping("/uploadMultipleFiles")
-  public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) throws IOException {
+  public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile[] files) throws IOException {
     List<UploadFileResponse> list = new ArrayList<>();
     for (MultipartFile multipartFile : files) {
       UploadFileResponse uploadFileResponse = uploadFile(multipartFile);

@@ -84,10 +84,10 @@ public class RestControllerTest {
 
   @After
   public void tearDown() {
-    deleteFile("results/hello.txt");
-    deleteFile("results/filename.txt");
-    deleteFile("results/other-file-name.data");
-    deleteFile("results/test.json");
+    deleteFile("scripts/hello.txt");
+    deleteFile("scripts/filename.txt");
+    deleteFile("scripts/other-file-name.data");
+    deleteFile("scripts/test.json");
   }
 
   private void deleteFile(String fileName) {
