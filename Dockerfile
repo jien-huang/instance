@@ -14,7 +14,7 @@ RUN /usr/lib/jvm/java-11-openjdk/bin/jlink \
     --output "$JAVA_MINIMAL"
 
 FROM alpine:latest
-LABEL author=huangjien
+LABEL maintainer Jien Huang <huangjien@gmail.com>
 
 ENV JAVA_HOME=/opt/java
 ENV PATH="$PATH:$JAVA_HOME/bin"
@@ -36,11 +36,14 @@ RUN apk update
 RUN apk upgrade
 RUN apk add --no-cache ttf-freefont udev chromium
 RUN apk add  --no-cache ffmpeg
+RUN apk add git less openssh
 # support chromium only now
 RUN apk add --no-cache firefox-esr
 RUN npm install -g testcafe
 RUN npm install -g testcafe-reporter-json
 RUN npm install -g @ffmpeg-installer/ffmpeg
+RUN rm -rf /var/lib/apt/lists/* && \
+    rm /var/cache/apk/*
 
 EXPOSE 8090
 ENTRYPOINT ["java","-jar","app.jar"]
