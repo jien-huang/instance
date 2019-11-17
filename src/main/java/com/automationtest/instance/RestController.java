@@ -36,6 +36,15 @@ class RestController {
     return json.toString();
   }
 
+  // get script list
+  // kick off script list
+  // delete all (scripts and results)
+  // delete all scripts
+  // delete all results
+  // download results ( a folder, zip it?)
+  // list results (json tree structure)
+  // get git script folder
+
   @PostMapping("/uploadFile")
   private UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
     String fileName = scriptsFolderMonitor.storeFile(file);
