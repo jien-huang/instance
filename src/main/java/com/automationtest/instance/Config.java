@@ -26,7 +26,6 @@ public class Config {
      * ignored.
      */
     private Config() {
-
         File[] files = new File(".").listFiles();
         Arrays.sort(files);
         for (File file : files){
@@ -36,7 +35,7 @@ public class Config {
                     config.load(new FileInputStream(file));
                     properties.putAll(config);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error(e.getMessage());
                 }
             }
         }

@@ -8,6 +8,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,13 +48,10 @@ class ScriptsFolderMonitor extends FolderMonitor {
         if (Config.getInstance().get("os.name", "Linux").toString().toLowerCase().contains("win")) {
             path = Files.createTempFile(Paths.get("."), "test", ".bat");
         } else {
-            Set<PosixFilePermission> perms = new HashSet<>();
             // add permission as rwxr--r-- 744
-            perms.add(PosixFilePermission.OWNER_WRITE);
-            perms.add(PosixFilePermission.OWNER_READ);
-            perms.add(PosixFilePermission.OWNER_EXECUTE);
-            perms.add(PosixFilePermission.GROUP_READ);
-            perms.add(PosixFilePermission.OTHERS_READ);
+            Set<PosixFilePermission> perms = new HashSet<>();
+            perms.addAll(Arrays.asList(new PosixFilePermission[]{PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_READ,
+                    PosixFilePermission.OWNER_EXECUTE, PosixFilePermission.GROUP_READ, PosixFilePermission.OTHERS_READ, PosixFilePermission.GROUP_READ}));
             FileAttribute<Set<PosixFilePermission>> fileAttributes = PosixFilePermissions.asFileAttribute(perms);
             path = Files.createTempFile(Paths.get("."), "test", ".sh", fileAttributes);
         }

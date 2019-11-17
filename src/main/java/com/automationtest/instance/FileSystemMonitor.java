@@ -11,19 +11,23 @@ import java.nio.file.*;
 import java.nio.file.WatchEvent.Kind;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import static com.sun.jmx.mbeanserver.Util.cast;
 
 class FileSystemMonitor {
   private final Logger logger = LoggerFactory.getLogger("FileSystemMonitor");
-  private final WatchService watchService = FileSystems.getDefault().newWatchService();
-  private final HashMap<WatchKey, Path> keys = new HashMap<>();
   private final Path path;
-  private final ConcurrentHashMap<String, String> fileList = new ConcurrentHashMap<>();
-
+  private ConcurrentHashMap<String, String> fileList = new ConcurrentHashMap<>();
+  private final long quietPeriod = 1000;
+  private final TimeUnit timeUnit = TimeUnit.MILLISECONDS;
+  FileService fileService = new FileService();
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public FileSystemMonitor(String watchPath) throws IOException {
     File folder = new File(watchPath);
-    if(folder.exists()){
-      if(!folder.isDirectory()){
+    if (folder.exists()) {
+      if (!folder.isDirectory()) {
         folder.delete();
         folder.mkdir();
       }
@@ -31,50 +35,69 @@ class FileSystemMonitor {
       folder.mkdir();
     }
     path = Paths.get(watchPath);
-    loadFileList();
-    WatchKey key = path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);
-    keys.put(key, path);
-    new DefaultThreadFactory(watchPath, true).newThread(() -> {
-      while (true) {
-        WatchKey key1;
-        try {
-          key1 = watchService.take();}
-        catch (InterruptedException e) {return;}
-        Path dir = keys.get(key1);
-        if(dir == null) {
-          continue;
-        }
-        for(WatchEvent<?> event: key1.pollEvents()){
-          Kind<?> kind = event.kind();
-          if (kind == StandardWatchEventKinds.OVERFLOW){
-            continue;
-          }
-          @SuppressWarnings("unchecked")
-          WatchEvent<Path> ev = (WatchEvent<Path>)event;
-          Path name = ev.context();
-          logger.debug(name.toFile().getAbsolutePath());
-          if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
-            fileList.put(name.toFile().getName(), name.toFile().getAbsolutePath());
-          }
-          if (kind == StandardWatchEventKinds.ENTRY_DELETE) {
-            fileList.remove(name.toFile().getName());
-          }
-        }
-      }
+    fileList = loadFileList();
 
-
-    }).start();
+    new Thread(fileService).start();
   }
 
-  private void loadFileList() throws IOException {
-    Files.walk(path).sorted().forEach(p -> fileList.put(p.toFile().getName(), p.toFile().getAbsolutePath()));
+  public void stop() {
+    this.fileService.stop();
+  }
+
+  class FileService implements Runnable {
+    private volatile boolean exit = false;
+    @Override
+    public void run() {
+      while(!exit){
+        try {
+          ConcurrentHashMap<String, String> tempMap = loadFileList();
+          if(isDifferent(tempMap, fileList)){
+            fileList = tempMap;
+          } else {
+            timeUnit.sleep(quietPeriod);
+          }
+        } catch ( InterruptedException e) {
+          logger.error(e.getMessage());
+        }
+      }
+    }
+    public void stop() {
+      exit = true;
+    }
+  }
+  private ConcurrentHashMap<String, String> loadFileList() {
+    ConcurrentHashMap<String, String> newMap = new ConcurrentHashMap<>();
+    try {
+      Files.walk(path).sorted().forEach(p -> newMap.put(p.toFile().getAbsolutePath(), p.toFile().getName()));
+    } catch (IOException e) {
+      logger.error(e.getMessage());
+    }
+    return newMap;
+  }
+
+  private boolean isDifferent(ConcurrentHashMap<String, String> mapOne, ConcurrentHashMap<String, String> mapTwo){
+    if(!mapOne.keySet().equals(mapTwo.keySet())){
+      return true;
+    }
+    for(String key: mapOne.keySet()){
+      if(!mapOne.get(key).equals(mapTwo.get(key))){
+        return true;
+      }
+    }
+    return false;
   }
 
   public boolean exist(String fileName) {
     return fileList.containsKey(fileName) || fileList.containsValue(fileName);
   }
 
+  public void clearAll() {
+    Utils.deleteFileOrFolder(this.path.toString());
+    fileList.clear();
+  }
+
   public Path getPath() {
     return this.path;
   }
+
 }

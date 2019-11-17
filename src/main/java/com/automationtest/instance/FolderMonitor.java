@@ -21,11 +21,6 @@ class FolderMonitor {
 
     private static final String RESULTS = Config.getInstance().get("folder.results", "./results/").toString();
 
-    @Autowired
-    public FolderMonitor() throws IOException {
-        fileSystemMonitor = new FileSystemMonitor(RESULTS);
-    }
-
     public Resource loadFileAsResource(String fileName) {
         try {
             Path filePath = this.fileSystemMonitor.getPath().resolve(fileName).normalize();
@@ -43,10 +38,6 @@ class FolderMonitor {
     public String storeFile(MultipartFile file) throws IOException {
         // Normalize file name
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-//    // Check if the file's name contains invalid characters
-//    if (fileName.contains("..")) {
-//      throw new IOException("Sorry! Filename contains invalid path sequence " + fileName);
-//    }
 
         // Copy file to the target location (Replacing existing file with the same name)
         Path targetLocation = this.fileSystemMonitor.getPath().resolve(fileName);

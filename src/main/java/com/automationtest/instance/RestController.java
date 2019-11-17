@@ -51,7 +51,7 @@ class RestController {
   }
 
   @PostMapping("/uploadMultipleFiles")
-  public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) throws IOException {
+  public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile[] files) throws IOException {
     List<UploadFileResponse> list = new ArrayList<>();
     for (MultipartFile multipartFile : files) {
       UploadFileResponse uploadFileResponse = uploadFile(multipartFile);
@@ -65,21 +65,11 @@ class RestController {
     // Load file as Resource
     Resource resource = resultsFolderMonitor.loadFileAsResource(fileName);
 
-    // Try to determine file's content type
-    String contentType = null;
-    try {
-      contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-    } catch (IOException ex) {
-      logger.info("Could not determine file type.");
-    }
-
-    // Fallback to the default content type if type could not be determined
-    if(contentType == null) {
-      contentType = "application/octet-stream";
+    if(resource == null) {
+      return ResponseEntity.notFound().build();
     }
 
     return ResponseEntity.ok()
-      .contentType(MediaType.parseMediaType(contentType))
       .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
       .body(resource);
   }

@@ -1,9 +1,6 @@
 package com.automationtest.instance;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.IOException;
 
@@ -30,5 +27,10 @@ public class ScriptsFolderMonitorTest {
     @Test
     public void runScript() {
         Assert.assertTrue( scriptsFolderMonitor.runScript("testScript_1.js").contains("1st test"));
+    }
+
+    @After
+    public void tearDown() {
+        Utils.deleteFileOrFolder("results/testScript_1");
     }
 }
