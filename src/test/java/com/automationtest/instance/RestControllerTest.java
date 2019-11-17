@@ -1,6 +1,5 @@
 package com.automationtest.instance;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.After;
@@ -19,9 +18,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.io.File;
-import java.io.UnsupportedEncodingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = InstanceApplication.class)
@@ -73,7 +69,7 @@ public class RestControllerTest {
     MockMultipartFile jsonFile = new MockMultipartFile("file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, World!".getBytes());
     try {
       MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.multipart("/uploadFile").file(jsonFile)).andReturn();
-      Assert.assertTrue(mvcResult.getResponse().getStatus() == 200);
+      Assert.assertEquals(200, mvcResult.getResponse().getStatus());
     } catch (Exception e) {
       Assert.fail();
     }
@@ -86,7 +82,7 @@ public class RestControllerTest {
       MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/downloadFile/testForDownload.txt")).andReturn();
       Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains("123456789abcdef"));
       mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/downloadFile/somethingnotexisted.txt")).andReturn();
-        Assert.assertTrue(mvcResult.getResponse().getStatus()==404);
+      Assert.assertEquals(404, mvcResult.getResponse().getStatus());
     } catch (Exception e) {
       Assert.fail();
     }

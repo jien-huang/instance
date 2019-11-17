@@ -21,7 +21,7 @@ class ScriptsFolderMonitor extends FolderMonitor {
             " --video-options pathPattern=${DATE}-${TIME}-Test${TEST_INDEX}-No${FILE_INDEX}.mp4").toString();
 
     @Autowired
-    public ScriptsFolderMonitor() throws IOException {
+    public ScriptsFolderMonitor() {
         fileSystemMonitor = new FileSystemMonitor(SCRIPTS);
     }
 
@@ -49,25 +49,25 @@ class ScriptsFolderMonitor extends FolderMonitor {
             path = Files.createTempFile(Paths.get("."), "test", ".bat");
         } else {
             // add permission as rwxr--r-- 744
-            Set<PosixFilePermission> perms = new HashSet<>();
-            perms.addAll(Arrays.asList(new PosixFilePermission[]{PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_READ,
-                    PosixFilePermission.OWNER_EXECUTE, PosixFilePermission.GROUP_READ, PosixFilePermission.OTHERS_READ, PosixFilePermission.GROUP_READ}));
+            Set<PosixFilePermission> perms = new HashSet<>(Arrays.asList(PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_READ,
+                    PosixFilePermission.OWNER_EXECUTE, PosixFilePermission.GROUP_READ, PosixFilePermission.OTHERS_READ, PosixFilePermission.GROUP_READ));
             FileAttribute<Set<PosixFilePermission>> fileAttributes = PosixFilePermissions.asFileAttribute(perms);
             path = Files.createTempFile(Paths.get("."), "test", ".sh", fileAttributes);
         }
         Files.write(path, cmd.getBytes());
         Process process = Runtime.getRuntime().exec(path.toString());
         BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String line, outputLine = "";
+        String line;
+        StringBuilder outputLine = new StringBuilder();
         line = in.readLine();
         line = in.readLine();
 
         while ((line = in.readLine()) != null) {
-            outputLine += line + System.lineSeparator();
+            outputLine.append(line).append(System.lineSeparator());
         }
         process.waitFor();
         Files.deleteIfExists(path);
-        return outputLine;
+        return outputLine.toString();
     }
 
 }

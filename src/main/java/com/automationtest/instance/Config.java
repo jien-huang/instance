@@ -7,17 +7,15 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Properties;
 
 public class Config {
 
     private final Properties properties = new Properties();
     private static final Config instance = new Config();
-    final Logger logger = LoggerFactory.getLogger("Configuration");
+    private final Logger logger = LoggerFactory.getLogger("Configuration");
 
     /***
      * load config files, by alphabet order, so my.properties will overwrite
@@ -27,7 +25,7 @@ public class Config {
      */
     private Config() {
         File[] files = new File(".").listFiles();
-        Arrays.sort(files);
+        Arrays.sort(Objects.requireNonNull(files));
         for (File file : files){
             if (file.getName().endsWith(".properties")) {
                 Properties config = new Properties();

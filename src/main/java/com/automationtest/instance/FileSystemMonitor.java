@@ -1,30 +1,24 @@
 package com.automationtest.instance;
 
 
-import io.netty.util.concurrent.DefaultThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.WatchEvent.Kind;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import static com.sun.jmx.mbeanserver.Util.cast;
 
 class FileSystemMonitor {
   private final Logger logger = LoggerFactory.getLogger("FileSystemMonitor");
   private final Path path;
   private ConcurrentHashMap<String, String> fileList = new ConcurrentHashMap<>();
-  private final long quietPeriod = 1000;
+  private final long quietPeriod = Integer.parseInt((String) Config.getInstance().get("idle.period", "1000"));
   private final TimeUnit timeUnit = TimeUnit.MILLISECONDS;
-  FileService fileService = new FileService();
+  private final FileService fileService = new FileService();
   @SuppressWarnings("ResultOfMethodCallIgnored")
-  public FileSystemMonitor(String watchPath) throws IOException {
+  public FileSystemMonitor(String watchPath) {
     File folder = new File(watchPath);
     if (folder.exists()) {
       if (!folder.isDirectory()) {
@@ -67,6 +61,10 @@ class FileSystemMonitor {
   }
   private ConcurrentHashMap<String, String> loadFileList() {
     ConcurrentHashMap<String, String> newMap = new ConcurrentHashMap<>();
+    if(!Files.exists(path)) {
+      return newMap;
+    }
+
     try {
       Files.walk(path).sorted().forEach(p -> newMap.put(p.toFile().getAbsolutePath(), p.toFile().getName()));
     } catch (IOException e) {
