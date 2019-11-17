@@ -8,6 +8,7 @@ import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -78,5 +79,21 @@ class Utils {
     }
     JsonNode jsonNode = mapper.reader().readTree(json);
     return new YAMLMapper().writeValueAsString(jsonNode);
+  }
+
+  public static void deleteFileOrFolder(String ... files) {
+    for(String fileName : files) {
+      File file = new File(fileName);
+      if (file.exists()) {
+        if (file.isDirectory()) {
+          for (File subFile : file.listFiles()) {
+            deleteFileOrFolder(subFile.getAbsolutePath());
+          }
+          file.delete();
+        } else {
+          file.delete();
+        }
+      }
+    }
   }
 }

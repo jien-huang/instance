@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = InstanceApplication.class)
@@ -80,20 +81,21 @@ public class RestControllerTest {
 
   @Test
   public void downloadFile() {
+
+    try {
+      MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/downloadFile/testForDownload.txt")).andReturn();
+      Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains("123456789abcdef"));
+      mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/downloadFile/somethingnotexisted.txt")).andReturn();
+        Assert.assertTrue(mvcResult.getResponse().getStatus()==404);
+    } catch (Exception e) {
+      Assert.fail();
+    }
+
   }
 
   @After
   public void tearDown() {
-    deleteFile("scripts/hello.txt");
-    deleteFile("scripts/filename.txt");
-    deleteFile("scripts/other-file-name.data");
-    deleteFile("scripts/test.json");
+    Utils.deleteFileOrFolder("scripts/hello.txt", "scripts/filename.txt", "scripts/other-file-name.data", "scripts/test.json");
   }
 
-  private void deleteFile(String fileName) {
-    File file1 = new File(fileName);
-    if(file1.exists()){
-      file1.delete();
-    }
-  }
 }
