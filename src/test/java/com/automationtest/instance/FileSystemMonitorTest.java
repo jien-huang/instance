@@ -7,8 +7,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 public class FileSystemMonitorTest {
@@ -18,7 +16,7 @@ public class FileSystemMonitorTest {
 
   @SuppressWarnings("ResultOfMethodCallIgnored")
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     fileSystemMonitor = new FileSystemMonitor("testFolder");
   }
 
@@ -34,7 +32,7 @@ public class FileSystemMonitorTest {
 
   @Test
   public void getPath() {
-    Assert.assertTrue(fileSystemMonitor.getPath().toString().equals("testFolder"));
+    Assert.assertEquals("testFolder", fileSystemMonitor.getPath().toString());
   }
 
   @SuppressWarnings("ResultOfMethodCallIgnored")

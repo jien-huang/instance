@@ -9,7 +9,7 @@ public class UploadFileResponseTest {
     UploadFileResponse uploadFileResponse;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         uploadFileResponse = new UploadFileResponse("fileName.txt", "http://localhost:3000/results/fileName.txt", "txt", 1024);
     }
 

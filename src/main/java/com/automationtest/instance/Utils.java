@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -86,7 +87,7 @@ class Utils {
       File file = new File(fileName);
       if (file.exists()) {
         if (file.isDirectory()) {
-          for (File subFile : file.listFiles()) {
+          for (File subFile : Objects.requireNonNull(file.listFiles())) {
             deleteFileOrFolder(subFile.getAbsolutePath());
           }
           file.delete();

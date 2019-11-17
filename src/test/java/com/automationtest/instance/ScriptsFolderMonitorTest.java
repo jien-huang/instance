@@ -4,29 +4,23 @@ import org.junit.*;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
-
 public class ScriptsFolderMonitorTest {
 
     ScriptsFolderMonitor scriptsFolderMonitor;
 
     @Before
     public void setup() {
-        try {
-            scriptsFolderMonitor = new ScriptsFolderMonitor();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        scriptsFolderMonitor = new ScriptsFolderMonitor();
     }
 
     @Test
-    public void loadFileAsResource() throws IOException {
+    public void loadFileAsResource() {
         Assert.assertTrue(scriptsFolderMonitor.loadFileAsResource("testScript_1.js").getClass().getName().contains("Resource"));
     }
 
     @Test
     public void runScript() {
-        Assert.assertTrue( scriptsFolderMonitor.runScript("testScript_1.js").contains("1st test"));
+        Assert.assertTrue(scriptsFolderMonitor.runScript("testScript_1.js").contains("1st test"));
     }
 
     @After

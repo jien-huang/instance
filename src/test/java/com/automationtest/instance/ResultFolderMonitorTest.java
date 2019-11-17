@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +14,7 @@ public class ResultFolderMonitorTest {
     ResultsFolderMonitor resultsFolderMonitor;
 
     @Before
-    public void setup() throws IOException {
+    public void setup() {
         resultsFolderMonitor = new ResultsFolderMonitor();
         Assert.assertNotNull(resultsFolderMonitor);
     }
