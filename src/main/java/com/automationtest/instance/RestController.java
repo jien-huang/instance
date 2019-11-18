@@ -43,7 +43,7 @@ class RestController {
   // delete all results
   // download results ( a folder, zip it?)
   // list results (json tree structure)
-  // get git script folder
+  // get git script folder: curl -LOk https://github.com/jien-huang/instance/archive/addGit.zip can download, we can handle it later
 
   @PostMapping("/uploadFile")
   private UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
