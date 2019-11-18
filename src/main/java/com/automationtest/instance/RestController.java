@@ -44,6 +44,19 @@ class RestController {
   // download results ( a folder, zip it?)
   // list results (json tree structure)
   // get git script folder: curl -LOk https://github.com/jien-huang/instance/archive/addGit.zip can download, we can handle it later
+  @GetMapping("/downloadFromGit")
+  @ResponseBody
+  public String downloadFromGit() {
+    JsonObject json = new JsonObject();
+    String message = scriptsFolderMonitor.downloadFromGit();
+    json.addProperty(Constants.MESSAGE, message);
+    if (message.equals(Constants.OK)){
+      json.addProperty(Constants.STATUS, Constants.OK);
+    } else {
+      json.addProperty(Constants.STATUS, Constants.FAIL);
+    }
+    return json.toString();
+  }
 
   @PostMapping("/uploadFile")
   private UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {

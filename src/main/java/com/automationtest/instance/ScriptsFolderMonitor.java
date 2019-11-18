@@ -2,6 +2,8 @@ package com.automationtest.instance;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
+import sun.security.util.IOUtils;
 
 import java.io.*;
 import java.nio.file.*;
@@ -11,6 +13,7 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.zip.ZipFile;
 
 @Service
 class ScriptsFolderMonitor extends FolderMonitor {
@@ -44,6 +47,10 @@ class ScriptsFolderMonitor extends FolderMonitor {
         String cmd = "testcafe \"" + Config.getInstance().get("local.browser", "chrome") + ":headless\" " + SCRIPTS
                 + scriptFileName + " --reporter json  --video " + resultFolder + VIDEO_OPTIONS;
 
+        return callCommand(cmd);
+    }
+
+    private String callCommand(String cmd) throws IOException, InterruptedException {
         Path path;
         if (Config.getInstance().get("os.name", "Linux").toString().toLowerCase().contains("win")) {
             path = Files.createTempFile(Paths.get("."), "test", ".bat");
@@ -60,14 +67,43 @@ class ScriptsFolderMonitor extends FolderMonitor {
         String line;
         StringBuilder outputLine = new StringBuilder();
         line = in.readLine();
-        line = in.readLine();
+//        line = in.readLine();
 
         while ((line = in.readLine()) != null) {
             outputLine.append(line).append(System.lineSeparator());
         }
-        process.waitFor();
+        int ret_code = process.waitFor();
         Files.deleteIfExists(path);
+        if (ret_code != 0) {
+            throw new InterruptedIOException("command failed. return code = " + ret_code);
+        }
         return outputLine.toString();
     }
 
+    // get git script folder: curl -LOk https://github.com/jien-huang/instance/archive/addGit.zip can download, we can handle it
+    public String downloadFromGit() {
+        String tmpdir = Config.getInstance().get("java.io.tmpdir").toString();
+        Object git_repo_url = Config.getInstance().get("git.repository.url");
+        if(git_repo_url == null){
+            return "Please set git.repository.url=https://[git website]/[user name]/[repository name]";
+        }
+        Object git_repo_folder = Config.getInstance().get("git.repository.foler");
+        if(git_repo_folder == null) {
+            return "Please set git.repository.folder=[scripts folder under repository]";
+        }
+
+        try {
+            String gitBranchName = Config.getInstance().get("git.repository.branch", "master").toString();
+            String whole_curl_cmd = "curl -LOk " + git_repo_url.toString()
+                    + "/archive/" + gitBranchName + ".zip > "
+                    + tmpdir;
+            callCommand(whole_curl_cmd);
+            String destFolder = tmpdir + Utils.randomDigit() + "/";
+            Utils.unzipFile( tmpdir+ gitBranchName + ".zip", destFolder);
+            FileSystemUtils.copyRecursively(Paths.get(destFolder), Paths.get(SCRIPTS));
+        } catch (IOException | InterruptedException e) {
+            return "curl download scripts from git failed. " + e.getMessage();
+        }
+        return Constants.OK;
+    }
 }

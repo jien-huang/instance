@@ -23,6 +23,14 @@ public class ScriptsFolderMonitorTest {
         Assert.assertTrue(scriptsFolderMonitor.runScript("testScript_1.js").contains("1st test"));
     }
 
+    @Test
+    public void downloadFromGit() {
+        Assert.assertFalse(scriptsFolderMonitor.downloadFromGit().contains(Constants.OK));
+        Config.getInstance().set("git.repository.url","https://github.com/jien-huang/instance");
+        Assert.assertFalse(scriptsFolderMonitor.downloadFromGit().contains(Constants.OK));
+        Config.getInstance().set("git.repository.folder","gitScriptsFolderExample");
+    }
+
     @After
     public void tearDown() {
         Utils.deleteFileOrFolder("results/testScript_1");
