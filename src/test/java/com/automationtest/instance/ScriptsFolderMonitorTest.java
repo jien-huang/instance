@@ -1,8 +1,9 @@
 package com.automationtest.instance;
 
-import org.junit.*;
-
-import java.io.IOException;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ScriptsFolderMonitorTest {
 
@@ -21,6 +22,14 @@ public class ScriptsFolderMonitorTest {
     @Test
     public void runScript() {
         Assert.assertTrue(scriptsFolderMonitor.runScript("testScript_1.js").contains("1st test"));
+    }
+
+    @Test
+    public void downloadFromGit() {
+        Assert.assertFalse(scriptsFolderMonitor.downloadFromGit().contains(Constants.OK));
+        Config.getInstance().set("git.repository.url","https://github.com/jien-huang/instance");
+        Assert.assertFalse(scriptsFolderMonitor.downloadFromGit().contains(Constants.OK));
+        Config.getInstance().set("git.repository.folder","gitScriptsFolderExample");
     }
 
     @After
