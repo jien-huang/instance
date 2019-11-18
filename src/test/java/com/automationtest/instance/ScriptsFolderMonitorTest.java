@@ -1,8 +1,9 @@
 package com.automationtest.instance;
 
-import org.junit.*;
-
-import java.io.IOException;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ScriptsFolderMonitorTest {
 
