@@ -17,6 +17,7 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -88,23 +89,27 @@ class ScriptsFolderMonitor extends FolderMonitor {
     public String downloadFromGit() {
         String tmpdir = Config.getInstance().get("java.io.tmpdir").toString();
         Object git_repo_url = Config.getInstance().get("git.repository.url");
-        if(git_repo_url == null){
+        if (git_repo_url == null) {
             return "Please set git.repository.url=https://[git website]/[user name]/[repository name]";
         }
-        Object git_repo_folder = Config.getInstance().get("git.repository.foler");
-        if(git_repo_folder == null) {
+        Object git_repo_folder = Config.getInstance().get("git.repository.folder");
+        if (git_repo_folder == null) {
             return "Please set git.repository.folder=[scripts folder under repository]";
         }
 
         try {
             String gitBranchName = Config.getInstance().get("git.repository.branch", "master").toString();
-            String whole_curl_cmd = "curl -LOk " + git_repo_url.toString()
-                    + "/archive/" + gitBranchName + ".zip > "
-                    + tmpdir;
+            String whole_curl_cmd = "curl -Lk -o " + tmpdir + gitBranchName + ".zip " + git_repo_url.toString()
+                    + "/archive/" + gitBranchName + ".zip";
             callCommand(whole_curl_cmd);
-            String destFolder = tmpdir + Utils.randomDigit() + "/";
-            Utils.unzipFile( tmpdir+ gitBranchName + ".zip", destFolder);
-            FileSystemUtils.copyRecursively(Paths.get(destFolder), Paths.get(SCRIPTS));
+            String destFolder = tmpdir + Utils.randomDigit();
+            Files.createDirectory(Paths.get(destFolder));
+            Utils.unzipFile(tmpdir + gitBranchName + ".zip", destFolder);
+            Optional<Path> targetFolder = Files.walk(Paths.get(destFolder), 2)
+                    .filter(p -> Files.isDirectory(p) && p.getFileName().endsWith(git_repo_folder.toString())).findFirst();
+            FileSystemUtils.copyRecursively(targetFolder.get(), Paths.get(SCRIPTS));
+            Utils.deleteFileOrFolder(tmpdir + gitBranchName + ".zip");
+            Utils.deleteFileOrFolder(destFolder);
         } catch (IOException | InterruptedException e) {
             return "curl download scripts from git failed. " + e.getMessage();
         }

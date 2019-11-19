@@ -5,6 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class ScriptsFolderMonitorTest {
 
     ScriptsFolderMonitor scriptsFolderMonitor;
@@ -30,10 +33,13 @@ public class ScriptsFolderMonitorTest {
         Config.getInstance().set("git.repository.url","https://github.com/jien-huang/instance");
         Assert.assertFalse(scriptsFolderMonitor.downloadFromGit().contains(Constants.OK));
         Config.getInstance().set("git.repository.folder","gitScriptsFolderExample");
+        Assert.assertTrue(scriptsFolderMonitor.downloadFromGit().contains(Constants.OK));
+        Assert.assertTrue(Files.exists(Paths.get("./scripts/testScript_fromGit.js")));
     }
 
     @After
     public void tearDown() {
         Utils.deleteFileOrFolder("results/testScript_1");
+        Utils.deleteFileOrFolder("./scripts/testScript_fromGit.js");
     }
 }
