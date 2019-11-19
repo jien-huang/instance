@@ -37,12 +37,74 @@ class RestController {
     }
 
     // get script list
+    @GetMapping("getScriptList")
+    @ResponseBody
+    public String getScriptList() {
+        JsonObject json = new JsonObject();
+        // Please implement here
+        return json.toString();
+    }
+
     // kick off script list
+    @PostMapping("/RunScripts")
+    @ResponseBody
+    public String RunScripts(@RequestBody List<String> scriptList) {
+        JsonObject json = new JsonObject();
+        // Please implement here
+        return json.toString();
+    }
+
     // delete all (scripts and results)
+    @DeleteMapping("/deleteAll")
+    @ResponseBody
+    public String deleteAll() {
+        JsonObject json = new JsonObject();
+        // Please implement here
+        return json.toString();
+    }
+
     // delete all scripts
+    @DeleteMapping("/deleteAllScripts")
+    @ResponseBody
+    public String deleteAllScripts() {
+        JsonObject json = new JsonObject();
+        // Please implement here
+        return json.toString();
+    }
+
     // delete all results
-    // download results ( a folder, zip it?)
+    @DeleteMapping("/deleteAllResults")
+    @ResponseBody
+    public String deleteAllResults() {
+        JsonObject json = new JsonObject();
+        // Please implement here
+        return json.toString();
+    }
+
+    // download results ( zip whole folder, download it)
+    @GetMapping("/downloadResults")
+    public ResponseEntity<Resource> downloadResults() {
+        // Load file as Resource
+        Resource resource = null; //resultsFolderMonitor.loadFileAsResource(fileName);
+
+        if (resource == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
     // list results (json tree structure)
+    @GetMapping("getResultList")
+    @ResponseBody
+    public String getResultList() {
+        JsonObject json = new JsonObject();
+        // Please implement here
+        return json.toString();
+    }
+
     // get git script folder: curl -LOk https://github.com/jien-huang/instance/archive/addGit.zip can download, we can handle it later
     @GetMapping("/downloadFromGit")
     @ResponseBody
