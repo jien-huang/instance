@@ -28,7 +28,7 @@ public class InstanceApplicationTests {
 
     @Test
     public void applicationContextTest() {
-        InstanceApplication.main(new String[] {});
+        InstanceApplication.main(new String[]{});
     }
 
 }

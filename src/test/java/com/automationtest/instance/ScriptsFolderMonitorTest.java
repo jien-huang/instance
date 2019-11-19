@@ -28,13 +28,20 @@ public class ScriptsFolderMonitorTest {
     }
 
     @Test
+    public void runNonExistedScript() {
+        Assert.assertTrue(scriptsFolderMonitor.runScript("testScript_nonexisted.js").contains("command failed. return code = "));
+    }
+
+    @Test
     public void downloadFromGit() {
         Assert.assertFalse(scriptsFolderMonitor.downloadFromGit().contains(Constants.OK));
-        Config.getInstance().set("git.repository.url","https://github.com/jien-huang/instance");
+        Config.getInstance().set("git.repository.url", "https://github.com/jien-huang/instance");
         Assert.assertFalse(scriptsFolderMonitor.downloadFromGit().contains(Constants.OK));
-        Config.getInstance().set("git.repository.folder","gitScriptsFolderExample");
+        Config.getInstance().set("git.repository.folder", "gitScriptsFolderExample");
         Assert.assertTrue(scriptsFolderMonitor.downloadFromGit().contains(Constants.OK));
         Assert.assertTrue(Files.exists(Paths.get("./scripts/testScript_fromGit.js")));
+        Config.getInstance().set("git.repository.url", "https://github.com/notexisteduser/nonexistedproject");
+        Assert.assertTrue(scriptsFolderMonitor.downloadFromGit().contains("curl download scripts from git failed."));
     }
 
     @After

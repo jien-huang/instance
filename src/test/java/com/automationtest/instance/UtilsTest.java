@@ -1,11 +1,11 @@
 package com.automationtest.instance;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 import org.assertj.core.util.DateUtil;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 public class UtilsTest {
 
@@ -67,9 +67,9 @@ public class UtilsTest {
     public void jsonToYaml() {
         try {
             Assert.assertNull(Utils.jsonToYaml(""));
-			Assert.assertTrue(Utils.isYaml(Utils.jsonToYaml("{\"status\":\"OK\"}")));
-		} catch (IOException e) {
+            Assert.assertTrue(Utils.isYaml(Utils.jsonToYaml("{\"status\":\"OK\"}")));
+        } catch (IOException e) {
             Assert.fail("Got Exception");
-		}
+        }
     }
 }

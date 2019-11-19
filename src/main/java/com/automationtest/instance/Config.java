@@ -4,7 +4,9 @@ import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
@@ -24,7 +26,7 @@ public class Config {
     private Config() {
         File[] files = new File(".").listFiles();
         Arrays.sort(Objects.requireNonNull(files));
-        for (File file : files){
+        for (File file : files) {
             if (file.getName().endsWith(".properties")) {
                 Properties config = new Properties();
                 try {
@@ -51,7 +53,7 @@ public class Config {
         if (!properties.containsKey("client.id")) {
             properties.put("client.id", Utils.uuid());
         }
-        
+
     }
 
     public static Config getInstance() {
@@ -85,7 +87,7 @@ public class Config {
 
     public void set(String key, String value) {
         properties.put(key, value);
-        logger.debug("set property " + key +"=" +value);
+        logger.debug("set property " + key + "=" + value);
     }
 
     public Properties getAll() {
