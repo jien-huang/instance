@@ -8,8 +8,6 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 public class Config {
 
@@ -87,6 +85,7 @@ public class Config {
 
     public void set(String key, String value) {
         properties.put(key, value);
+        logger.debug("set property " + key +"=" +value);
     }
 
     public Properties getAll() {

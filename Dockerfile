@@ -14,7 +14,7 @@ RUN /usr/lib/jvm/java-11-openjdk/bin/jlink \
     --output "$JAVA_MINIMAL"
 
 FROM alpine:latest
-LABEL maintainer Jien Huang <huangjien@gmail.com>
+LABEL Author = "huangjien@gmail.com"
 
 ENV JAVA_HOME=/opt/java
 ENV PATH="$PATH:$JAVA_HOME/bin"
