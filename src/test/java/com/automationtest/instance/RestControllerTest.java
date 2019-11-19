@@ -86,6 +86,18 @@ public class RestControllerTest {
     } catch (Exception e) {
       Assert.fail();
     }
+  }
+
+  @Test
+  public void downloadFromGit() {
+
+    try {
+      MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/downloadFromGit")).andReturn();
+      Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains("Please set"));
+    } catch (Exception e) {
+      Assert.fail();
+    }
+
 
   }
 
