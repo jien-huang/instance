@@ -25,7 +25,6 @@ def imageTarget = "huangjien/instance"
 def imageTag = project.findProperty('imageTag') ?: 'latest'
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'de.codecentric:spring-boot-admin-starter-server'
 	compile group: 'com.google.code.gson', name: 'gson'
