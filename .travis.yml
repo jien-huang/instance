@@ -11,7 +11,10 @@ env:
 before_install:
   - sudo apt-get install nodejs
 
-before_script:
+install:
+  - npm install -g node
+  - node -v
+  - npm -v
   - npm install -g @angular/cli
 
 script:
