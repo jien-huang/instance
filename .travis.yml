@@ -8,6 +8,9 @@ services:
 env:
   - TERM=dumb
 
+before_script:
+  - npm install -g @angular/cli
+
 script:
   - env TRAVIS=true gradle build
 
