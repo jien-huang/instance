@@ -17,13 +17,9 @@ public class InstanceApplicationTests {
     @Autowired
     private RestController restController;
 
-    @Autowired
-    private WebController webController;
-
     @Test
     public void contextLoads() {
         assertThat(restController).isNotNull();
-        assertThat(webController).isNotNull();
     }
 
     @Test
