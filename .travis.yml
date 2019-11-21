@@ -12,10 +12,10 @@ before_install:
   - sudo apt-get install nodejs
 
 install:
-  - npm install -g node
+  - sudo npm install -g node
   - node -v
   - npm -v
-  - npm install -g @angular/cli
+  - sudo npm install -g @angular/cli
 
 script:
   - env TRAVIS=true gradle build
