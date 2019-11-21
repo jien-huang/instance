@@ -67,8 +67,7 @@ task buildAngular(type:Exec) {
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
 		commandLine "ng.cmd", "build"
 	} else {
-		commandLine "sh", "-c", "npm", "ci"
-		commandLine "sh", "-c", "ng", "build", "--verbose"
+		commandLine "sh", "-c", "npx","ng", "build", "--verbose"
 	}
 }
 
@@ -77,9 +76,9 @@ task installAngular(type:Exec) {
 	inputs.dir "$webappDir"
 	group = BasePlugin.BUILD_GROUP
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
-		commandLine "npm.cmd", "install"
+		commandLine "npm.cmd", "ci"
 	} else {
-		commandLine "npm", "install"
+		commandLine "npm", "ci"
 	}
 }
 
