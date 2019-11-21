@@ -67,7 +67,7 @@ task buildAngular(type:Exec) {
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
 		commandLine "ng.cmd", "build"
 	} else {
-		commandLine "sh", "-c", "npm","run", "build", "--verbose"
+		commandLine "cd", "$webappDir", "&&","npm","run", "build"
 	}
 }
 
@@ -78,7 +78,7 @@ task installAngular(type:Exec) {
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
 		commandLine "npm.cmd", "ci"
 	} else {
-		commandLine "npm", "ci"
+		commandLine "cd", "$webappDir", "&&", "npm", "ci"
 	}
 }
 
