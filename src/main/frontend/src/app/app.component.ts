@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Http  } from '@angular/http';
 import { Observable } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
