@@ -46,4 +46,5 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm /var/cache/apk/*
 
 EXPOSE 8090
+EXPOSE 4200
 ENTRYPOINT ["java","-jar","app.jar"]
