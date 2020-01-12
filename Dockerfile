@@ -39,6 +39,7 @@ RUN apk add  --no-cache ffmpeg
 RUN apk add --no-cache curl
 # support chromium only now
 RUN apk add --no-cache firefox-esr
+RUN npm cache clean --f
 RUN npm install -g testcafe
 RUN npm install -g testcafe-reporter-json
 RUN npm install -g @ffmpeg-installer/ffmpeg
