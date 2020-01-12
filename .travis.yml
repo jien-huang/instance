@@ -1,4 +1,7 @@
 language: java
+cache:
+  npm: false
+  
 jdk:
   - openjdk8
 dist: xenial
