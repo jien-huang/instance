@@ -20,7 +20,6 @@ class FileSystemMonitor {
     private final TimeUnit timeUnit = TimeUnit.MILLISECONDS;
     private final FileService fileService = new FileService();
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public FileSystemMonitor(String watchPath) {
         File folder = new File(watchPath);
         if (folder.exists()) {
