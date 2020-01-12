@@ -12,9 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class FileSystemMonitorTest {
 
     private FileSystemMonitor fileSystemMonitor;
-    private File root;
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Before
     public void setUp() {
         fileSystemMonitor = new FileSystemMonitor("testFolder");
@@ -35,7 +33,6 @@ public class FileSystemMonitorTest {
         Assert.assertEquals("testFolder", fileSystemMonitor.getPath().toString());
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @After
     public void tearDown() throws InterruptedException {
         fileSystemMonitor.clearAll();
