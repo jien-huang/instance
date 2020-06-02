@@ -8,7 +8,7 @@ dist: xenial
 services:
   - docker
 
-gradle: 5.3
+gradle: 6.3
 
 env:
   - TERM=dumb
