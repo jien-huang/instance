@@ -21,7 +21,7 @@ install:
   - npm install -g @angular/cli
 
 script:
-  - env TRAVIS=true gradle build
+  - gradle clean build test
 
 deploy:
   - provider: script
