@@ -32,6 +32,8 @@ dependencies {
 	compile group: 'com.google.guava', name: 'guava', version: '28.+'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
+    // https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.7.0.202003110725-r'
 	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml'
 }
 
