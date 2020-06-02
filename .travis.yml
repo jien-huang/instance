@@ -8,13 +8,18 @@ dist: xenial
 services:
   - docker
 
-gradle: 6.3
+os: linux
 
 env:
   - TERM=dumb
 
 before_install:
   - sudo apt-get install nodejs
+  - wget http://services.gradle.org/distributions/gradle-6.3-bin.zip
+  - unzip -qq gradle-6.3-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-6.3
+  - export PATH=$GRADLE_HOME/bin:$PATH
+  - gradle -v
 
 install:
   - npm install -g node@latest
