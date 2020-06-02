@@ -8,11 +8,18 @@ dist: xenial
 services:
   - docker
 
+os: linux
+
 env:
   - TERM=dumb
 
 before_install:
   - sudo apt-get install nodejs
+  - sudo wget https://services.gradle.org/distributions/gradle-6.3-bin.zip 
+  - unzip -qq gradle-6.3-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-6.3
+  - export PATH=$GRADLE_HOME/bin:$PATH
+  - gradle -v
 
 install:
   - npm install -g node@latest
@@ -21,7 +28,7 @@ install:
   - npm install -g @angular/cli
 
 script:
-  - env TRAVIS=true gradle build
+  - gradle clean build test
 
 deploy:
   - provider: script
