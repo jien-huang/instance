@@ -1,6 +1,6 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.1.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'org.springframework.boot' version '2.3.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
     id 'jacoco'
 	id 'application'
@@ -15,7 +15,7 @@ repositories {
 }
 
 ext {
-	set('springBootAdminVersion', "2.1.5")
+	set('springBootAdminVersion', "2.2.3")
 }
 
 version='0.1.2'
