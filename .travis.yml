@@ -15,10 +15,7 @@ env:
 
 before_install:
   - sudo apt-get install nodejs
-  - wget http://services.gradle.org/distributions/gradle-6.3-bin.zip
-  - unzip -qq gradle-6.3-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-6.3
-  - export PATH=$GRADLE_HOME/bin:$PATH
+  - sdk install gradle 6.4.1
   - gradle -v
 
 install:
