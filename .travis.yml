@@ -8,12 +8,13 @@ dist: xenial
 services:
   - docker
 
+gradle: 5.3
+
 env:
   - TERM=dumb
 
 before_install:
   - sudo apt-get install nodejs
-  - gradle -b wrapper.gradle wrapper
 
 install:
   - npm install -g node@latest
