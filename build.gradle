@@ -58,6 +58,10 @@ processResources {
 	dependsOn "buildAngular"
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '6.0'
+}
+
 task buildAngular(type:Exec) {
 	// ng doesn't exist as a file in windows -> ng.cmd
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
