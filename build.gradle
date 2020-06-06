@@ -4,6 +4,7 @@ plugins {
 	id 'java'
     id 'jacoco'
 	id 'application'
+	id "com.github.ben-manes.versions" version '0.28.0'
 }
 
 group = 'com.automationtest'
@@ -18,7 +19,7 @@ ext {
 	set('springBootAdminVersion', "2.2.3")
 }
 
-version='0.1.2'
+version='0.1.4'
 
 def user = "$System.env.USERNAME"
 def pass = "$System.env.PASSWORD"
@@ -29,7 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'de.codecentric:spring-boot-admin-starter-server'
 	compile group: 'com.google.code.gson', name: 'gson'
-	compile group: 'com.google.guava', name: 'guava', version: '28.+'
+	compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
     // https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit
@@ -92,6 +93,11 @@ task createDockerImage(type: Exec){
 task tagDockerImage(type:Exec){
 	dependsOn 'createDockerImage'
 	commandLine '/bin/sh', '-c', "docker tag ${imageTarget}:${project.version} ${imageTarget}:${imageTag}"
+}
+
+task runLocally(type: Exec) {
+	dependsOn 'createDockerImage'
+	commandLine "docker run -p 8090:8090 ${imageTarget}:${project.version}"
 }
 
 task pushDockerImage(type: Exec){

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin
@@ -31,6 +32,7 @@ class RestController {
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
     @ResponseBody
     public String ping() {
+        logger.debug("we receive a ping.");
         JsonObject json = new JsonObject();
         json.addProperty(Constants.STATUS, Constants.OK);
         return json.toString();
@@ -42,6 +44,18 @@ class RestController {
     public String getScriptList() {
         JsonObject json = new JsonObject();
         // Please implement here
+        return json.toString();
+    }
+
+    @GetMapping("getConfiguration")
+    @ResponseBody
+    public String getConfiguration() {
+        ;
+        JsonObject json = new JsonObject();
+        Properties properties = Config.getInstance().getAll();
+        for(Object key : properties.keySet()) {
+            json.addProperty(key.toString(), properties.get(key).toString());
+        }
         return json.toString();
     }
 
