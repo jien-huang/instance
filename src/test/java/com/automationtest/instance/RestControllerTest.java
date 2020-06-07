@@ -1,5 +1,6 @@
 package com.automationtest.instance;
 
+import com.automationtest.instance.utils.Utils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

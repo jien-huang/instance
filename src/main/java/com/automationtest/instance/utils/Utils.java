@@ -1,4 +1,4 @@
-package com.automationtest.instance;
+package com.automationtest.instance.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-class Utils {
+public class Utils {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final ObjectMapper mapper = new ObjectMapper();
 

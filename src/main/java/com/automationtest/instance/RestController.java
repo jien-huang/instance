@@ -1,5 +1,9 @@
 package com.automationtest.instance;
 
+import com.automationtest.instance.services.GitCenter;
+import com.automationtest.instance.services.ResultsFolder;
+import com.automationtest.instance.utils.Config;
+import com.automationtest.instance.utils.Constants;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +28,10 @@ class RestController {
     private final Logger logger = LoggerFactory.getLogger("RestController");
     @Autowired
     private
-    ResultsFolderMonitor resultsFolderMonitor;
+    ResultsFolder resultsFolderMonitor;
     @Autowired
     private
-    ScriptsFolderMonitor scriptsFolderMonitor;
+    GitCenter gitCenter;
 
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
     @ResponseBody
@@ -124,7 +128,7 @@ class RestController {
     @ResponseBody
     public String downloadFromGit() {
         JsonObject json = new JsonObject();
-        String message = scriptsFolderMonitor.downloadFromGit();
+        String message = gitCenter.download()? "OK" : "Download from git failed.";
         json.addProperty(Constants.MESSAGE, message);
         if (message.equals(Constants.OK)) {
             json.addProperty(Constants.STATUS, Constants.OK);
@@ -136,7 +140,7 @@ class RestController {
 
     @PostMapping("/uploadFile")
     private UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        String fileName = scriptsFolderMonitor.storeFile(file);
+        String fileName = gitCenter.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/scripts/")
@@ -160,7 +164,7 @@ class RestController {
     @GetMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
-        Resource resource = resultsFolderMonitor.loadFileAsResource(fileName);
+        Resource resource = gitCenter.loadFileAsResource(fileName);
 
         if (resource == null) {
             return ResponseEntity.notFound().build();

@@ -1,5 +1,7 @@
 package com.automationtest.instance;
 
+import com.automationtest.instance.services.ResultsFolder;
+import com.automationtest.instance.utils.Utils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,11 +13,11 @@ import java.io.IOException;
 
 public class ResultFolderMonitorTest {
 
-    ResultsFolderMonitor resultsFolderMonitor;
+    ResultsFolder resultsFolderMonitor;
 
     @Before
     public void setup() {
-        resultsFolderMonitor = new ResultsFolderMonitor();
+        resultsFolderMonitor = new ResultsFolder();
         Assert.assertNotNull(resultsFolderMonitor);
     }
 

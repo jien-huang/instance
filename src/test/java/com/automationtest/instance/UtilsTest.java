@@ -1,5 +1,6 @@
 package com.automationtest.instance;
 
+import com.automationtest.instance.utils.Utils;
 import org.assertj.core.util.DateUtil;
 import org.junit.Assert;
 import org.junit.Test;
