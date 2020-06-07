@@ -1,7 +1,6 @@
 package com.automationtest.instance;
 
 import com.automationtest.instance.services.GitCenter;
-import com.automationtest.instance.services.ResultsFolder;
 import com.automationtest.instance.utils.Config;
 import com.automationtest.instance.utils.Constants;
 import com.google.gson.JsonObject;
@@ -26,9 +25,6 @@ import java.util.Properties;
 class RestController {
 
     private final Logger logger = LoggerFactory.getLogger("RestController");
-    @Autowired
-    private
-    ResultsFolder resultsFolderMonitor;
     @Autowired
     private
     GitCenter gitCenter;
