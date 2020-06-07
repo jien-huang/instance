@@ -10,17 +10,19 @@ enum ClientApiUrls {
   delete = 'delete/'
 }
 
+const options = {
+    headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
+  };
+
 @Injectable({
   providedIn: 'root'
 })
 export class HttpServiceService {
   baseUrl = environment.apiUrl;
-  headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
-  options = new RequestOptions({ headers: this.headers });
   constructor(private readonly http: HttpClient) { }
 
   ping() : Observable<any> {
-    return this.http.get(ClientApiUrls.ping).pipe(map(this.extractData))
+    return this.http.get(ClientApiUrls.ping, options).pipe(map(this.extractData))
 //     .pipe(map(this.extractData)).catch((error: any)=>{
 //       return Observable.throw(error)
 //     }))

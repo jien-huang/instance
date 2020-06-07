@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 
 const pingData = {
-  "Status":"OK"
+  Status: 'OK'
 }
 
 @Injectable()
@@ -17,7 +17,7 @@ export class BackendInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler):
    Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>>{
-    if(request.method === "GET" && request.url.endsWith("ping")) {
+    if(request.method === 'GET' && request.url.endsWith('ping')) {
      return new Observable(observer => {
              observer.next(new HttpResponse<any>({body: pingData, status: 200}));
              observer.complete();
