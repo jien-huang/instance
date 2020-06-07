@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JsonpModule } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing/app-routing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -63,7 +63,7 @@ import { BackendInterceptor } from './BackendHttpInterceptor';
     MatListModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule,
     MatRadioModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSortModule,
     MatSlideToggleModule, MatSnackBarModule, MatTableModule, MatTabsModule, MatToolbarModule,
-    MatTooltipModule, MatFormFieldModule, MatExpansionModule, MatStepperModule, FormsModule
+    MatTooltipModule, MatFormFieldModule, MatExpansionModule, MatStepperModule, FormsModule, HttpModule
   ],
   providers: [
     {

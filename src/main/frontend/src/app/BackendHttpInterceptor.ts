@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 
 const pingData = {
-  Status: 'OK'
+  'Status': 'OK'
 }
 
 @Injectable()

@@ -1,7 +1,6 @@
 <mat-toolbar color="primary">
   <button mat-icon-button [matMenuTriggerFor]="main" aria-label="Menu">
     <mat-icon>more_vert</mat-icon>
-
   </button>
   <mat-menu #main="matMenu">
     <button mat-menu-item routerLink="/script">Script</button>
@@ -16,9 +15,21 @@
 
   <span>automation-test</span>
   <span class="spacer"></span>
-  <mat-icon class="icon" aria-hidden="false" matTooltip="Upload Scripts" aria-label="Upload Scripts">cloud_upload</mat-icon>
+  <mat-chip-list aria-label="Status">
+    <mat-chip [ngStyle]="{'color': '#00FF00' }" selected>ok</mat-chip>
+  </mat-chip-list>
+  <button mat-icon-button [matMenuTriggerFor]="git" aria-label="Menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #git="matMenu">
+    <button mat-menu-item >Get Latest</button>
+    <button mat-menu-item >New Branch</button>
+    <button mat-menu-item >Push</button>
+    <button mat-menu-item >Settings</button>
+  </mat-menu>
+  <!-- <mat-icon class="icon" aria-hidden="false" matTooltip="Upload Scripts" aria-label="Upload Scripts">cloud_upload</mat-icon>
   <mat-icon class="icon" aria-hidden="false" matTooltip="Download Results" aria-label="Download Results">cloud_download</mat-icon>
-  <mat-icon class="icon" aria-hidden="false" matTooltip="Download Cli" aria-label="Download Cli">build</mat-icon>
+  <mat-icon class="icon" aria-hidden="false" matTooltip="Download Cli" aria-label="Download Cli">build</mat-icon> -->
 
 </mat-toolbar>
 

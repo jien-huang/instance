@@ -21,7 +21,7 @@ export class HttpServiceService {
   baseUrl = environment.apiUrl;
   constructor(private readonly http: HttpClient) { }
 
-  ping() : Observable<any> {
+  public ping() : Observable<any> {
     return this.http.get(ClientApiUrls.ping, options).pipe(map(this.extractData))
 //     .pipe(map(this.extractData)).catch((error: any)=>{
 //       return Observable.throw(error)
@@ -33,7 +33,7 @@ export class HttpServiceService {
         res = null;
         throw new Error('Bad response status:' + res.status);
       }
-      console.log(res._body);
-      return (JSON.parse(res._body));
+      console.log(res);
+      return (res);
   }
 }
