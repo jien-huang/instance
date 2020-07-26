@@ -1,6 +1,8 @@
 package com.automationtest.instance;
 
 
+import com.automationtest.instance.utils.Config;
+import com.automationtest.instance.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

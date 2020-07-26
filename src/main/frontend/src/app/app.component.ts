@@ -12,12 +12,9 @@ export class AppComponent {
   title = 'app works!';
   result = '';
 
-  constructor(private http: Http){
+  constructor(){
   }
 
-  private sayHello(): void {
-    this.result = 'loading...';
-    this.http.get(`/ping`).subscribe(response => this.result = response.text());
-  }
+
 
 }

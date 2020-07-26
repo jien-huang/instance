@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
-cd ./src/main/frontend
+cd ./src/main/frontend || exit
 npm ci
 npm run build

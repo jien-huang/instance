@@ -1,5 +1,8 @@
-package com.automationtest.instance;
+package com.automationtest.instance.services;
 
+import com.automationtest.instance.utils.Config;
+import com.automationtest.instance.utils.Constants;
+import com.automationtest.instance.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
@@ -21,17 +24,16 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-class ScriptsFolderMonitor extends FolderMonitor {
+class ScriptsFolder {
+
+    @Autowired
+    GitCenter gitCenter;
 
     private static final String SCRIPTS = Config.getInstance().get("folder.scripts", "./scripts/").toString();
     private static final String RESULTS = Config.getInstance().get("folder.results", "./results/").toString();
     private static final String VIDEO_OPTIONS = Config.getInstance().get("video.options",
             " --video-options pathPattern=${DATE}-${TIME}-Test${TEST_INDEX}-No${FILE_INDEX}.mp4").toString();
 
-    @Autowired
-    public ScriptsFolderMonitor() {
-        fileSystemMonitor = new FileSystemMonitor(SCRIPTS);
-    }
 
     public String runScript(String scriptFileName) {
         try {

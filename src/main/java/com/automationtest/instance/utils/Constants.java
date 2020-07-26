@@ -1,6 +1,6 @@
-package com.automationtest.instance;
+package com.automationtest.instance.utils;
 
-interface Constants {
+public interface Constants {
     String OK = "OK";
     String FAIL = "FAIL";
     String START_AT = "startAt";
