@@ -1,4 +1,4 @@
-package com.automationtest.instance;
+package com.automationtest.instance.utils;
 
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
@@ -74,7 +74,7 @@ public class Config {
         return value.toString().equalsIgnoreCase("True");
     }
 
-    Object get(String key) {
+    public Object get(String key) {
         return properties.getProperty(key);
     }
 

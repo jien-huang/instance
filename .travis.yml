@@ -22,10 +22,11 @@ before_install:
   - gradle -v
 
 install:
-  - npm install -g node@latest
+  - npm install -g node@12.12.0 --force
   - node -v
   - npm -v
-  - npm install -g @angular/cli
+  - npm cache clean --force
+  - npm install -s @angular/cli
 
 script:
   - gradle clean build test

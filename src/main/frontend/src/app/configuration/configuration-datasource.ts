@@ -1,5 +1,7 @@
 import { DataSource } from '@angular/cdk/collections';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 
@@ -11,26 +13,26 @@ export interface ConfigurationTableItem {
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: ConfigurationTableItem[] = [
-  {value: "key", key: 'Hydrogen'},
-  {value: "key", key: 'Helium'},
-  {value: "key", key: 'Lithium'},
-  {value: "key", key: 'Beryllium'},
-  {value: "key", key: 'Boron'},
-  {value: "key", key: 'Carbon'},
-  {value: "key", key: 'Nitrogen'},
-  {value: "key", key: 'Oxygen'},
-  {value: "key", key: 'Fluorine'},
-  {value: "key", key: 'Neon'},
-  {value: "key", key: 'Sodium'},
-  {value: "key", key: 'Magnesium'},
-  {value: "key", key: 'Aluminum'},
-  {value: "key", key: 'Silicon'},
-  {value: "key", key: 'Phosphorus'},
-  {value: "key", key: 'Sulfur'},
-  {value: "key", key: 'Chlorine'},
-  {value: "key", key: 'Argon'},
-  {value: "key", key: 'Potassium'},
-  {value: "key", key: 'Calcium'},
+  {value: 'key', key: 'Hydrogen'},
+  {value: 'key', key: 'Helium'},
+  {value: 'key', key: 'Lithium'},
+  {value: 'key', key: 'Beryllium'},
+  {value: 'key', key: 'Boron'},
+  {value: 'key', key: 'Carbon'},
+  {value: 'key', key: 'Nitrogen'},
+  {value: 'key', key: 'Oxygen'},
+  {value: 'key', key: 'Fluorine'},
+  {value: 'key', key: 'Neon'},
+  {value: 'key', key: 'Sodium'},
+  {value: 'key', key: 'Magnesium'},
+  {value: 'key', key: 'Aluminum'},
+  {value: 'key', key: 'Silicon'},
+  {value: 'key', key: 'Phosphorus'},
+  {value: 'key', key: 'Sulfur'},
+  {value: 'key', key: 'Chlorine'},
+  {value: 'key', key: 'Argon'},
+  {value: 'key', key: 'Potassium'},
+  {value: 'key', key: 'Calcium'},
 ];
 
 /**
