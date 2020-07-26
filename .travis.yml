@@ -3,14 +3,12 @@ cache:
   npm: false
   
 jdk:
-  - openjdk11
+  - openjdk8
 dist: xenial
 services:
   - docker
 
 os: linux
-node_js:
-  - 12
 
 env:
   - TERM=dumb
@@ -24,6 +22,7 @@ before_install:
   - gradle -v
 
 install:
+  - npm install -g node@12.12.0 --force
   - node -v
   - npm -v
   - npm cache clean --force
