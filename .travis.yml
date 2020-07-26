@@ -24,6 +24,8 @@ before_install:
   - gradle -v
 
 install:
+  - node -v
+  - npm -v
   - npm cache clean --force
   - npm install -s @angular/cli
 
