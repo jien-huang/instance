@@ -9,6 +9,8 @@ services:
   - docker
 
 os: linux
+node_js:
+  - 10
 
 env:
   - TERM=dumb
@@ -22,9 +24,6 @@ before_install:
   - gradle -v
 
 install:
-  - npm install -g node@latest --force
-  - node -v
-  - npm -v
   - npm cache clean --force
   - npm install -s @angular/cli
 
