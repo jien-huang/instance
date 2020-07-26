@@ -25,6 +25,7 @@ install:
   - npm install -g node@latest --force
   - node -v
   - npm -v
+  - npm cache clean --force
   - npm install -g @angular/cli
 
 script:
