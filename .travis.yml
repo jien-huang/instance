@@ -22,7 +22,7 @@ before_install:
   - gradle -v
 
 install:
-  - npm install -g node@latest
+  - npm install -g node@latest --force
   - node -v
   - npm install -g npm@latest
   - npm -v
