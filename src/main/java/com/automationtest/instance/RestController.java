@@ -29,11 +29,11 @@ class RestController {
     private
     GitCenter gitCenter;
 
-    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    @GetMapping(value = "/ping")
     @ResponseBody
     public String ping() {
         logger.debug("we receive a ping.");
-        JsonObject json = new JsonObject();
+        final JsonObject json = new JsonObject();
         json.addProperty(Constants.STATUS, Constants.OK);
         return json.toString();
     }
@@ -42,7 +42,7 @@ class RestController {
     @GetMapping("getScriptList")
     @ResponseBody
     public String getScriptList() {
-        JsonObject json = new JsonObject();
+        final JsonObject json = new JsonObject();
         // Please implement here
         return json.toString();
     }
@@ -51,9 +51,9 @@ class RestController {
     @ResponseBody
     public String getConfiguration() {
         ;
-        JsonObject json = new JsonObject();
-        Properties properties = Config.getInstance().getAll();
-        for(Object key : properties.keySet()) {
+        final JsonObject json = new JsonObject();
+        final Properties properties = Config.getInstance().getAll();
+        for (final Object key : properties.keySet()) {
             json.addProperty(key.toString(), properties.get(key).toString());
         }
         return json.toString();
@@ -62,8 +62,8 @@ class RestController {
     // kick off script list
     @PostMapping("/RunScripts")
     @ResponseBody
-    public String RunScripts(@RequestBody List<String> scriptList) {
-        JsonObject json = new JsonObject();
+    public String RunScripts(@RequestBody final List<String> scriptList) {
+        final JsonObject json = new JsonObject();
         // Please implement here
         return json.toString();
     }
@@ -72,7 +72,7 @@ class RestController {
     @DeleteMapping("/deleteAll")
     @ResponseBody
     public String deleteAll() {
-        JsonObject json = new JsonObject();
+        final JsonObject json = new JsonObject();
         // Please implement here
         return json.toString();
     }
@@ -81,7 +81,7 @@ class RestController {
     @DeleteMapping("/deleteAllScripts")
     @ResponseBody
     public String deleteAllScripts() {
-        JsonObject json = new JsonObject();
+        final JsonObject json = new JsonObject();
         // Please implement here
         return json.toString();
     }
@@ -90,7 +90,7 @@ class RestController {
     @DeleteMapping("/deleteAllResults")
     @ResponseBody
     public String deleteAllResults() {
-        JsonObject json = new JsonObject();
+        final JsonObject json = new JsonObject();
         // Please implement here
         return json.toString();
     }
@@ -99,7 +99,7 @@ class RestController {
     @GetMapping("/downloadResults")
     public ResponseEntity<Resource> downloadResults() {
         // Load file as Resource
-        Resource resource = null; //resultsFolderMonitor.loadFileAsResource(fileName);
+        final Resource resource = null; // resultsFolderMonitor.loadFileAsResource(fileName);
 
         if (resource == null) {
             return ResponseEntity.notFound().build();
@@ -114,17 +114,19 @@ class RestController {
     @GetMapping("getResultList")
     @ResponseBody
     public String getResultList() {
-        JsonObject json = new JsonObject();
+        final JsonObject json = new JsonObject();
         // Please implement here
         return json.toString();
     }
 
-    // get git script folder: curl -LOk https://github.com/jien-huang/instance/archive/addGit.zip can download, we can handle it later
+    // get git script folder: curl -LOk
+    // https://github.com/jien-huang/instance/archive/addGit.zip can download, we
+    // can handle it later
     @GetMapping("/downloadFromGit")
     @ResponseBody
     public String downloadFromGit() {
-        JsonObject json = new JsonObject();
-        String message = gitCenter.download()? "OK" : "Download from git failed.";
+        final JsonObject json = new JsonObject();
+        final String message = gitCenter.download() ? "OK" : "Download from git failed.";
         json.addProperty(Constants.MESSAGE, message);
         if (message.equals(Constants.OK)) {
             json.addProperty(Constants.STATUS, Constants.OK);
@@ -135,32 +137,31 @@ class RestController {
     }
 
     @PostMapping("/uploadFile")
-    private UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        String fileName = gitCenter.storeFile(file);
+    public UploadFileResponse uploadFile(@RequestParam("file") final MultipartFile file) throws IOException {
+        final String fileName = gitCenter.storeFile(file);
 
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/scripts/")
-                .path(fileName)
-                .toUriString();
+        final String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/scripts/")
+                .path(fileName).toUriString();
 
-        return new UploadFileResponse(fileName, fileDownloadUri,
-                file.getContentType(), file.getSize());
+        return new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
     }
 
     @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile[] files) throws IOException {
-        List<UploadFileResponse> list = new ArrayList<>();
-        for (MultipartFile multipartFile : files) {
-            UploadFileResponse uploadFileResponse = uploadFile(multipartFile);
+    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("file") final MultipartFile[] files)
+            throws IOException {
+        final List<UploadFileResponse> list = new ArrayList<>();
+        for (final MultipartFile multipartFile : files) {
+            final UploadFileResponse uploadFileResponse = uploadFile(multipartFile);
             list.add(uploadFileResponse);
         }
         return list;
     }
 
     @GetMapping("/downloadFile/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+    public ResponseEntity<Resource> downloadFile(@PathVariable final String fileName,
+            final HttpServletRequest request) {
         // Load file as Resource
-        Resource resource = gitCenter.loadFileAsResource(fileName);
+        final Resource resource = gitCenter.loadFileAsResource(fileName);
 
         if (resource == null) {
             return ResponseEntity.notFound().build();

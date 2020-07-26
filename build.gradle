@@ -106,9 +106,11 @@ task pushDockerImage(type: Exec){
 }
 
 jacocoTestReport {
+	dependsOn test
     reports {
         xml.enabled false
-        csv.enabled true
+        csv.enabled false
+		html.destination file("${buildDir}/reports")
     }
 }
 
@@ -121,4 +123,5 @@ test {
         events "failed"
         exceptionFormat "short"
     }
+	finalizedBy jacocoTestReport
 }

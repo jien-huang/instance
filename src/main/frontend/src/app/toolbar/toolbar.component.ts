@@ -7,13 +7,13 @@ import { HttpServiceService } from '../http-service.service'
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
-  
+
   status: any;
   constructor(protected httpService: HttpServiceService) { }
 
   ngOnInit(){
     this.httpService.ping().subscribe( this.status )
   }
-  
+
 
 }
