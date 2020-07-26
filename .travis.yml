@@ -3,14 +3,14 @@ cache:
   npm: false
   
 jdk:
-  - openjdk8
+  - openjdk11
 dist: xenial
 services:
   - docker
 
 os: linux
 node_js:
-  - 10
+  - 12
 
 env:
   - TERM=dumb
