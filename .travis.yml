@@ -22,9 +22,9 @@ before_install:
   - gradle -v
 
 install:
-  - npm install -g npm@latest
   - npm install -g node@latest
   - node -v
+  - npm install -g npm@latest
   - npm -v
   - npm install -g @angular/cli
 
