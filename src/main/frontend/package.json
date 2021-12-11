@@ -29,6 +29,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "y18n": ">=4.0.1",
     "lodash": ">=4.17.21",
     "@angular-devkit/build-angular": "~13.1.1",
     "@angular/cli": "~13.1.1",
