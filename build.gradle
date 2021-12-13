@@ -53,7 +53,6 @@ sourceSets {
 	}
 }
 
-mainClassName  = 'com.automationtest.instance.InstanceApplication'
 
 processResources {
 	dependsOn "buildAngular"
@@ -79,15 +78,6 @@ task dockerLogin(type: Exec){
 // Enable gradle to use property like -Dspring.profiles.active=dev
 bootRun {
 	systemProperties = System.properties
-}
-
-task copyJar(type: Exec){
-	commandLine '/bin/sh', '-c', "cp build/libs/${project.name}-${project.version}.jar build/libs/${project.name}.jar"
-}
-
-task createDockerImage(type: Exec){
-	dependsOn 'copyJar'
-	commandLine '/bin/sh', '-c', "docker build -t ${imageTarget}:${project.version} ."
 }
 
 task tagDockerImage(type:Exec){
