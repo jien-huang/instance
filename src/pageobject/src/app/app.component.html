@@ -1,0 +1,136 @@
+<div class="toolbar" role="banner">
+  <button mat-icon-button [matMenuTriggerFor]="main" aria-label="Menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #main="matMenu">
+    <button mat-menu-item (click)="download_page_objects()">Download Page Objects</button>
+    <button mat-menu-item (click)="save_options()">Save Options</button>
+    <button mat-menu-item (click)="load_options()">Download Framework</button>
+    <button mat-menu-item (click)="to_my_home()">More Infomation ...</button>
+  </mat-menu>
+  <span>Welcome to Automation-Test</span>
+  <div class="spacer"></div>
+  <button mat-raised-button (click)="to_my_home()">
+    <mat-icon>cloud_download</mat-icon>
+  </button>
+  <p>&nbsp;</p>
+</div>
+
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <!-- <mat-icon >cloud_download</mat-icon> -->
+      Generated Contents
+    </ng-template>
+    <mat-expansion-panel *ngFor="let page of pages">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <small>Name</small>:&nbsp;&nbsp;<label>{{page.name}}</label>
+          <div class="spacer"></div><Label style="font-weight: 300;"><small>ID: {{page.id}}</small></Label>
+        </mat-panel-title>
+
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <small>URL:</small><Label>{{page.url}}</Label>
+        <div class="spacer"></div>
+        <small>AT:</small><Label>{{page.timeStamp}}</Label>
+      </mat-panel-description>
+      <mat-action-row>
+        <button mat-raised-button color="primary" (click)="generate_script(page)">Generate Script</button>
+        <button mat-raised-button color="accent" [disabled]="!(page.name && page.script)"
+          (click)="update_page(page)">Save</button>
+        <button mat-raised-button color="warn" [disabled]="!page.name" (click)="delete_page(page.id)">Delete</button>
+      </mat-action-row>
+      <mat-form-field class="width-80pc">
+        <input matInput placeholder="Name" [(ngModel)]="page.name">
+      </mat-form-field>
+
+      <mat-form-field class="width-100pc">
+        <textarea matInput placeholder="Script" [(ngModel)]="page.script" cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="16"></textarea>
+          
+      </mat-form-field>
+    </mat-expansion-panel>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Options
+    </ng-template>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Manage Options
+        </mat-panel-title>
+        <mat-panel-description>
+          <Label>Add, Delete, Update, Save, Load Options</Label>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field class="width-20pc">
+        <input matInput placeholder="Name" [(ngModel)]="newName">
+        <button mat-raised-button *ngIf="newName" matSuffix mat-icon-button aria-label="Clear" (click)="newName=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <span>&nbsp;</span>
+      <mat-form-field class="width-80pc">
+        <textarea matInput placeholder="Value" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1" [(ngModel)]="newValue"></textarea>
+        <button mat-raised-button *ngIf="newValue" matSuffix mat-icon-button aria-label="Clear" (click)="newValue=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-action-row>
+        <button mat-raised-button color="primary" [disabled]="!newName || !newValue"
+          (click)="add_new_option()">Add</button>
+        <button mat-raised-button color="accent" (click)="save_options()">Save</button>
+        <button mat-raised-button color="warn" (click)="load_options()">Reload</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    <mat-divider></mat-divider>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let option of options">
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{option.name}}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field class="width-20pc">
+          <input matInput placeholder="Name" readonly value="{{option.name}}">
+        </mat-form-field>
+        <span>&nbsp;</span>
+        <mat-form-field class="width-80pc">
+          <textarea matInput placeholder="Value" [(ngModel)]="option.value" cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"></textarea>
+        </mat-form-field>
+        <mat-action-row>
+          <button mat-raised-button color="accent" [disabled]="!(option.name && option.value)"
+            (click)="update_option(option)">Save</button>
+          <button mat-raised-button color="warn" [disabled]="!option.name"
+            (click)="delete_option(option.name)">Delete</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+    </mat-accordion>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      About
+    </ng-template>
+    <mat-vertical-stepper #Stepper >
+      <mat-step >
+        <ng-template matStepLabel>Copy super script class to your folder</ng-template>
+        <Label>This is super class of the page model, generated pages will inherit methods from it.</Label>
+        <pre><code>{{about}}</code></pre>
+      </mat-step>
+      <mat-step >
+        <ng-template matStepLabel>Capture Page Object(s)</ng-template>
+        <Label>Right click on the page you want to capture, choose <b>Capture This Page</b>.</Label>
+        <Label>Then you can find the capture page under <b>Generated</b> tab</Label>
+      </mat-step>
+      <mat-step >
+        <ng-template matStepLabel>Write your test fixture and tests</ng-template>
+        <Label>Follow below example.</Label>
+        <pre><code>{{testExample}}</code></pre>
+      </mat-step>
+    </mat-vertical-stepper>
+    
+  </mat-tab>
+</mat-tab-group>
