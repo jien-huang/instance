@@ -14,10 +14,16 @@ function captureFunction() {
         var input = document.getElementById('code')
         input.value = response.content
         console.log(response)
-        classname.value = response.name
-        input.focus();
-        input.select();
-        document.execCommand('Copy');
+        // classname.value = response.name
+        // input.focus();
+        // input.select();
+        // document.execCommand('Copy');
+        if (!navigator.clipboard){
+            // use old commandExec() way
+            document.execCommand('Copy');
+        } else{
+            navigator.clipboard.writeText(response.content);
+        }
         classname.focus();
         });
     });

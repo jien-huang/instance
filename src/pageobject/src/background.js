@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 
 chrome.contextMenus.removeAll();
 chrome.contextMenus.create({
-    title: "Capture This Page",
+    title: "Get Page Objects",
     contexts: ["page"],
     onclick: function () {
         sendMessageToContentScript({ type: 'get' });
